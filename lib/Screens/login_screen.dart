@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         top: 20,
                         left: 30,
                         child: Text(
-                          'User Name',
+                          'Email',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
