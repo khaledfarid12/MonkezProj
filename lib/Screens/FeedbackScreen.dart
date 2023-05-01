@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../Constants/Dimensions.dart';
 
 class FeedbackScreen extends StatefulWidget {
   @override
@@ -77,74 +78,244 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feedback'),
+        leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
+        ],
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Full name'),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your full name';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your email';
-                }
-                if (!value.contains('@')) {
-                  return 'Please enter a valid email';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _phoneController,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                labelText: 'Phone Number',
-                errorText: _errorMessage,
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: MyDim.fontSizeButtons * 3,
+                    width: MyDim.fontSizeButtons * 3,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('Assets/images/img_16.png'))),
+                  ),
+                  Text(
+                    "Get in Touch",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MyDim.fontSizeButtons),
+                  )
+                ],
               ),
-              onChanged: (value) {
-                setState(() {
-                  if (_phoneRegex.hasMatch(value)) {
-                    _errorMessage = null;
-                  } else {
-                    _errorMessage =
-                    'Please enter a valid 11-digit phone number.';
-                  }
-                });
-              },
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _messageController,
-              decoration: InputDecoration(labelText: 'Leave a message'),
-              maxLines: 5,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your message';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _submitFeedback,
-              child: Text('Submit'),
-            ),
-          ],
+              Center(
+                child: Divider(
+                  thickness: 1,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: MyDim.SizedBoxtiny * 3,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: MyDim.paddingUnit * 11),
+                child: Text(
+                  'Full Name',
+                  style: TextStyle(
+                      fontSize: MyDim.fontSizeButtons,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: MyDim.SizedBoxsmall * 0.3,
+              ),
+              Container(
+                width: 300,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 25.0, top: 3, right: 10),
+                  child: TextFormField(
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    controller: _nameController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your full name';
+                      }
+                      return null;
+                    },
+                    autofocus: false,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white70,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: MyDim.paddingUnit * 13),
+                child: Text(
+                  'Email',
+                  style: TextStyle(
+                      fontSize: MyDim.fontSizeButtons,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: MyDim.SizedBoxsmall * 0.8,
+              ),
+              Container(
+                width: 300,
+                height: 45,
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 25.0, top: 3, right: 10),
+                  child: TextFormField(
+                    autocorrect: false,
+                    controller: _emailController,
+                    enableSuggestions: false,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!value.contains('@')) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.alternate_email_rounded,
+                        color: Colors.black,
+                      ),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white70,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: MyDim.paddingUnit * 10),
+                child: Text(
+                  'Phone Number',
+                  style: TextStyle(
+                      fontSize: MyDim.fontSizeButtons,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: MyDim.SizedBoxsmall * 0.8,
+              ),
+              Container(
+                width: 300,
+                height: 45,
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 25.0, top: 3, right: 10),
+                  child: TextFormField(
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    controller: _phoneController,
+                    keyboardType: TextInputType.phone,
+                    autofocus: false,
+                    onChanged: (value) {
+                      setState(() {
+                        if (_phoneRegex.hasMatch(value)) {
+                          _errorMessage = null;
+                        } else {
+                          _errorMessage =
+                              'Please enter a valid 11-digit phone number.';
+                        }
+                      });
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.phone,
+                        color: Colors.black,
+                      ),
+                      border: InputBorder.none,
+                      errorText: _errorMessage,
+                      hintStyle: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white70,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: MyDim.paddingUnit * 13),
+                child: Text(
+                  'Leave Your Message',
+                  style: TextStyle(
+                      fontSize: MyDim.fontSizeButtons,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: MyDim.SizedBoxsmall * 0.8,
+              ),
+              Container(
+                width: 300,
+                height: 45,
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(30)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 25.0, top: 3, right: 10),
+                  child: TextFormField(
+                    autocorrect: false,
+                    controller: _messageController,
+                    enableSuggestions: false,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your message';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white70,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+              ),
+
+              // oldddd codeeeeeeee
+
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _submitFeedback,
+                child: Text(
+                  'Submit',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              Center(
+                  child: Text(
+                'Copyright 2022 | All Rights Reserved | Powered by Monkez',
+                style: TextStyle(
+                    fontSize: MyDim.fontSizeMedium, color: Colors.grey),
+                textAlign: TextAlign.center,
+              )),
+            ],
+          ),
         ),
       ),
     );
