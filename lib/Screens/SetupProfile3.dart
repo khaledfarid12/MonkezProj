@@ -1,8 +1,12 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gradproj/Screens/login_screen.dart';
+import 'package:gradproj/Screens/profile.dart';
+import 'package:gradproj/models/User.dart';
 import '../Constants/designConstants.dart';
 import '../Constants/Dimensions.dart';
 import '../Constants/setUp3Data.dart';
@@ -10,7 +14,9 @@ import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import '../Constants/buildButton.dart';
 import 'package:path/path.dart' as p;
+import 'UserService.dart';
 import 'signup_form_widgets.dart';
+import 'testprofile.dart';
 
 class SetupProfile3 extends StatefulWidget {
   final String uid;
@@ -22,6 +28,8 @@ class SetupProfile3 extends StatefulWidget {
 
 class _SetupProfile3State extends State<SetupProfile3> {
   String? selecteditem = 'Cairo';
+  String imageUrl = '';
+
   late int _locationvalue;
   late int _imagevalue;
   String dropdownvalue = ' ';
@@ -69,6 +77,63 @@ class _SetupProfile3State extends State<SetupProfile3> {
     }
   }
 
+  Future _uploadinfo() async {
+    String imageUrl = "";
+    if (image != null) {
+      try {
+        final fileName = image!.path.split('/').last;
+        final destination = 'images/$fileName';
+
+        final ref =
+            firebase_storage.FirebaseStorage.instance.ref().child(destination);
+        imageUrl = await ref.getDownloadURL();
+        await ref.putFile(image!);
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Image uploaded')));
+      } on FirebaseException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to upload image: $e')));
+      }
+
+      FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
+        'location': dropdownvalue,
+        'birthDate': dateinput.text,
+        'imagePath': imageUrl,
+        'publicDocs': publicDocs,
+      });
+    } else {
+      FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
+        'location': dropdownvalue,
+        'birthDate': dateinput.text,
+        'imagePath': 'No avatar',
+        'publicDocs': publicDocs,
+      });
+    }
+    final userRef =
+        FirebaseFirestore.instance.collection("users").doc(widget.uid);
+    final userDoc = await userRef.get();
+    final userData = userDoc.data()!;
+    await userRef.update(userData);
+
+    // Retrieve the updated user data
+    final user = await UserService.getUserData(widget.uid);
+    if (user == null) {
+      print('Error retrieving user data');
+      // Handle the error here, such as displaying a message to the user
+      return;
+    }
+
+    // Navigate to the ProfileScreen page with the updated user data
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => userprofile(
+          user: user,
+        ),
+      ),
+    );
+  }
+
   Future uploadinfo() async {
     if (image != null) {
       final path = 'userAvatars/${p.basename(image!.path)}';
@@ -89,6 +154,29 @@ class _SetupProfile3State extends State<SetupProfile3> {
         'publicDocs': publicDocs,
       });
     }
+    final userRef =
+        FirebaseFirestore.instance.collection("users").doc(widget.uid);
+    final userDoc = await userRef.get();
+    final userData = userDoc.data()!;
+    await userRef.update(userData);
+
+    // Retrieve the updated user data
+    final user = await UserService.getUserData(widget.uid);
+    if (user == null) {
+      print('Error retrieving user data');
+      // Handle the error here, such as displaying a message to the user
+      return;
+    }
+
+    // Navigate to the ProfileScreen page with the updated user data
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => userprofile(
+          user: user,
+        ),
+      ),
+    );
   }
 
   @override
