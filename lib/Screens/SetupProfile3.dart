@@ -20,6 +20,7 @@ import 'testprofile.dart';
 
 class SetupProfile3 extends StatefulWidget {
   final String uid;
+
   const SetupProfile3({Key? key, required this.uid}) : super(key: key);
 
   @override
@@ -171,26 +172,43 @@ class _SetupProfile3State extends State<SetupProfile3> {
     }
 
     // Navigate to the ProfileScreen page with the updated user data
-
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => Testimg(
-    //       user: user,
-    //       uid: widget.uid,
-    //     ),
-    //   ),
-    // );
-
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => userprofile(
           uid: widget.uid,
           user: user,
+          getImageData: getImageData,
+          //uploadInfo: uploadinfo,
         ),
       ),
     );
+  }
+
+  Future<Uint8List> getImageData() async {
+    //await widget.uploadInfo();
+
+    String imagePath = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      return documentSnapshot.get('imagePath') as String;
+    });
+
+    Uint8List? imageData =
+        await FirebaseStorage.instance.ref(imagePath).getData();
+
+    if (imageData != null) {
+      return imageData;
+    } else {
+      throw Exception('Failed to load image');
+    }
+  }
+
+  Future<void> finishBtn() async {
+    uploadinfo();
+    getImageData();
   }
 
   @override
@@ -681,7 +699,7 @@ class _SetupProfile3State extends State<SetupProfile3> {
                         width: 150,
                         height: 65,
                         child: TextButton(
-                          onPressed: uploadinfo,
+                          onPressed: finishBtn,
                           child: Text(
                             'Finish',
                             style: TextStyle(
