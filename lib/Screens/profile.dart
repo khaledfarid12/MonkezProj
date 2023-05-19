@@ -5,13 +5,17 @@ import '../models/members.dart';
 import '../screens/fammember.dart';
 import '../models/User.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class userprofile extends StatefulWidget {
   final User user;
+  final String uid;
 
   const userprofile({
     Key? key,
     required this.user,
+    required this.uid,
   }) : super(key: key);
 
   @override
@@ -60,16 +64,23 @@ class _userprofileState extends State<userprofile> {
               ),
               new Row(
                 children: <Widget>[
-                  new Container(
-                    margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    child: new Image.network(
-                      FirebaseStorage.instance
-                          .ref()
-                          .child(widget.user.imagePath)
-                          .getDownloadURL()
-                          .toString(),
-                      height: 140.0,
-                      fit: BoxFit.cover,
+                  CircleAvatar(
+                    radius: 90,
+                    backgroundColor: Colors.transparent,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: new FutureBuilder<Uint8List>(
+                        future: getImageData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Image.memory(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                      ),
                     ),
                   ),
                   new Column(
@@ -277,5 +288,23 @@ class _userprofileState extends State<userprofile> {
         //     .push(MaterialPageRoute(builder: (_) => fam(member)));
       },
     );
+  }
+
+  Future<Uint8List> getImageData() async {
+    String imagePath = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      return documentSnapshot.get('imagePath') as String;
+    });
+
+    Uint8List? imageData =
+        await FirebaseStorage.instance.ref(imagePath).getData();
+    if (imageData != null) {
+      return imageData;
+    } else {
+      throw Exception('Failed to load image');
+    }
   }
 }

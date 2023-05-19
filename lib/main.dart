@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/Screens/FeedbackScreen.dart';
+import 'package:gradproj/Screens/SetupProfile3.dart';
 import 'package:gradproj/Screens/login_screen.dart';
 import 'package:gradproj/Screens/welcome_page.dart';
 import 'screens/signup_form_widgets.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: RegisterScreen(),
+      home: WelcomePage(),
       theme: ThemeData(fontFamily: 'flu', primarySwatch: Colors.cyan),
     );
   }
