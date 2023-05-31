@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradproj/Screens/UserService.dart';
+import 'package:gradproj/Screens/searchnew.dart';
 import 'package:path/path.dart';
 import '../models/members.dart';
 import '../screens/fammember.dart';
@@ -8,6 +9,8 @@ import '../Screens/SetupProfile3.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../Screens/friend_requests.dart';
+import '../Screens/setupprofile1.dart';
 
 class userprofile extends StatefulWidget {
   final User user;
@@ -44,7 +47,15 @@ class _userprofileState extends State<userprofile> {
               IconButton(
                 icon: const Icon(Icons.settings),
                 tooltip: 'Comment Icon',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          FriendRequestsScreen(userId: widget.uid),
+                    ),
+                  );
+                },
               ),
             ],
             backgroundColor: Color.fromARGB(255, 0, 205, 208)),
@@ -95,12 +106,12 @@ class _userprofileState extends State<userprofile> {
                     ),
                   ),
                   SizedBox(
-                    width: 40,
+                    width: 10,
                   ),
                   new Column(
                     children: <Widget>[
                       new Container(
-                        margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         alignment: Alignment.topLeft,
                         child: Text(
                           widget.user.username,
@@ -197,7 +208,17 @@ class _userprofileState extends State<userprofile> {
                               borderRadius: BorderRadius.circular(12),
                             ) //<-- SEE HERE
                             ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserSearchScreen(
+                                uid: widget.uid,
+                                senderuser: widget.user,
+                              ),
+                            ),
+                          );
+                        },
                         icon: Icon(
                           // <-- Icon
                           Icons.add_circle_outline,
@@ -205,6 +226,38 @@ class _userprofileState extends State<userprofile> {
                           size: 26.0,
                         ),
                         label: Text('Add Family Member',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.black)), // <-- Text
+                      ),
+                    ),
+                    new Container(
+                      margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.all(10),
+                            side: BorderSide(color: Colors.black, width: 2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ) //<-- SEE HERE
+                            ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SetUpProfile1(
+                                  uid: widget.uid, senderuser: widget.user),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          // <-- Icon
+                          Icons.add_circle_outline,
+                          color: Colors.black,
+                          size: 26.0,
+                        ),
+                        label: Text('Add Family community',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,

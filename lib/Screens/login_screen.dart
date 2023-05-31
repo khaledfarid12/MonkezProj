@@ -1,6 +1,12 @@
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gradproj/Screens/profile.dart';
+import 'UserService.dart';
 import 'signup_form_widgets.dart';
 import 'home_screen.dart';
 import '../Constants/Dimensions.dart';
@@ -285,9 +291,46 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailController.text,
           password: _passwordController.text,
         );
+        final uid = userCredential.user!.uid;
+        final user = await UserService.getUserData(uid);
+        if (user == null) {
+          print('Error retrieving user data');
+          // Handle the error here, such as displaying a message to the user
+          return;
+        }
         print(userCredential);
+        Future<Uint8List> getImageData() async {
+          //await widget.uploadInfo();
+
+          String imagePath = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .get()
+              .then((DocumentSnapshot documentSnapshot) {
+            return documentSnapshot.get('imagePath') as String;
+          });
+
+          Uint8List? imageData =
+              await FirebaseStorage.instance.ref(imagePath).getData();
+
+          if (imageData != null) {
+            return imageData;
+          } else {
+            throw Exception('Failed to load image');
+          }
+        }
+
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => userprofile(
+              uid: uid,
+              user: user,
+              getImageData: getImageData,
+              //uploadInfo: uploadinfo,
+            ),
+          ),
+        );
       } on FirebaseAuthException catch (e) {
         setState(() {
           _isLoading = false;
