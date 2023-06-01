@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class FriendRequestsScreen extends StatelessWidget {
+class FamilyRequestsScreen extends StatelessWidget {
   final String userId;
 
-  FriendRequestsScreen({required this.userId});
+  FamilyRequestsScreen({required this.userId});
 
   @override
   Widget build(BuildContext context) {
