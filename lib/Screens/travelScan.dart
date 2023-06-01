@@ -3,32 +3,32 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:gradproj/Screens/ContactUs.dart';
 import 'package:gradproj/Screens/EditProfile.dart';
+import '../Constants/TravelGuideConstants.dart';
 import '../models/User.dart';
+import 'ContactUs.dart';
 import 'NearestBuilding.dart';
 import 'ServiceNeeds.dart';
 import 'SetupProfile3.dart';
 import 'profile.dart';
 import 'welcome_page.dart';
+import 'Guidance.dart';
 import 'home.dart';
-import 'travelScan.dart';
 import '../Constants/Dimensions.dart';
 import '../Constants/DocumentButton.dart';
-import '../Constants/guidanceData.dart';
-import '../Constants/designConstants.dart';
+import 'package:gradproj/Constants/designConstants.dart';
 
-class Guidance extends StatefulWidget {
+class TravelGuide extends StatefulWidget {
   final String uid;
   final User user;
-  const Guidance({Key? key, required this.uid, required this.user})
+  const TravelGuide({Key? key, required this.uid, required this.user})
       : super(key: key);
 
   @override
-  State<Guidance> createState() => _GuidanceState();
+  State<TravelGuide> createState() => _TravelGuideState();
 }
 
-class _GuidanceState extends State<Guidance> {
+class _TravelGuideState extends State<TravelGuide> {
   Future<Uint8List> getImageData() async {
     //await widget.uploadInfo();
 
@@ -113,27 +113,8 @@ class _GuidanceState extends State<Guidance> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ServiceNeeds(
-                              user: widget.user,
-                              uid: widget.uid,
-                            )));
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Travel Guide',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
                         builder: (context) =>
-                            TravelGuide(user: widget.user, uid: widget.uid)));
+                            ServiceNeeds(user: widget.user, uid: widget.uid)));
               },
             ),
             ListTile(
@@ -168,6 +149,23 @@ class _GuidanceState extends State<Guidance> {
                     MaterialPageRoute(
                         builder: (context) => NearestBuilding(
                             user: widget.user, uid: widget.uid)));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Guidance',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Guidance(user: widget.user, uid: widget.uid)));
               },
             ),
             ListTile(
@@ -249,7 +247,7 @@ class _GuidanceState extends State<Guidance> {
                       padding: const EdgeInsets.all(8.0),
                       child: Image(
                         image: ResizeImage(
-                            AssetImage('Assets/images/guidance.png'),
+                            AssetImage('Assets/images/NearestBuilding.png'),
                             width: 50,
                             height: 70),
                       ),
@@ -257,7 +255,7 @@ class _GuidanceState extends State<Guidance> {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
-                        'Guidance',
+                        'Travel Guide',
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -271,7 +269,7 @@ class _GuidanceState extends State<Guidance> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
-                "Which document do you want to inquire about ?",
+                "Which country do you want to inquire about ?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -289,37 +287,30 @@ class _GuidanceState extends State<Guidance> {
               height: MyDim.SizedBoxtiny * 1,
             ),
             DocumentButton(
-                image: 'Assets/images/IDNeeds.png',
-                label: 'National ID',
-                clickdoc: openDialogID),
+                image: 'Assets/images/mlz.jpeg',
+                label: 'Malaysia',
+                clickdoc: openDialogMz),
             SizedBox(
               height: MyDim.SizedBoxtiny * 1,
             ),
             DocumentButton(
-                image: 'Assets/images/certificateNeeds.png',
-                label: 'High school certificate',
-                clickdoc: openDialogHS),
+                image: 'Assets/images/leb.jpeg',
+                label: 'Lebanon',
+                clickdoc: openDialogLeb),
             SizedBox(
               height: MyDim.SizedBoxtiny * 1,
             ),
             DocumentButton(
-                image: 'Assets/images/driver.png',
-                label: 'Driver’s license',
-                clickdoc: openDialogDriver),
+                image: 'Assets/images/alb.jpeg',
+                label: 'Albania',
+                clickdoc: openDialogAlb),
             SizedBox(
               height: MyDim.SizedBoxtiny * 1,
             ),
             DocumentButton(
-                image: 'Assets/images/birthNeeds.png',
-                label: 'Birth Certificate',
-                clickdoc: openDialogBirth),
-            SizedBox(
-              height: MyDim.SizedBoxtiny * 1,
-            ),
-            DocumentButton(
-                image: 'Assets/images/pass.png',
-                label: 'Passport',
-                clickdoc: openDialogPassport),
+                image: 'Assets/images/mal.jpeg',
+                label: 'Maldives',
+                clickdoc: openDialogMal),
             SizedBox(
               height: MyDim.SizedBoxsmall,
             ),
@@ -329,27 +320,23 @@ class _GuidanceState extends State<Guidance> {
     );
   }
 
-  Future openDialogID() => showDialog(
+  Future openDialogAlb() => showDialog(
       context: context,
       builder: (context) =>
-          InstructionsPopUp(onpressed: Done, steps: NationalID()));
+          InstructionsPopUp(onpressed: Done, steps: Albania()));
 
-  Future openDialogHS() => showDialog(
+  Future openDialogLeb() => showDialog(
       context: context,
       builder: (context) =>
-          InstructionsPopUp(onpressed: Done, steps: HighSchool()));
-  Future openDialogDriver() => showDialog(
+          InstructionsPopUp(onpressed: Done, steps: Lebanon()));
+  Future openDialogMal() => showDialog(
       context: context,
       builder: (context) =>
-          InstructionsPopUp(onpressed: Done, steps: DriverLisence()));
-  Future openDialogBirth() => showDialog(
+          InstructionsPopUp(onpressed: Done, steps: Maldives()));
+  Future openDialogMz() => showDialog(
       context: context,
       builder: (context) =>
-          InstructionsPopUp(onpressed: Done, steps: BirthCertificate()));
-  Future openDialogPassport() => showDialog(
-      context: context,
-      builder: (context) =>
-          InstructionsPopUp(onpressed: Done, steps: Passport()));
+          InstructionsPopUp(onpressed: Done, steps: Malaysia()));
 
   void Done() {
     Navigator.of(context).pop();

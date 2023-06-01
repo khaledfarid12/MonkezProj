@@ -1,7 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:gradproj/Screens/EditProfile.dart';
+import 'package:gradproj/Screens/home.dart';
+import 'package:gradproj/Screens/profile.dart';
+import 'package:gradproj/Screens/travelScan.dart';
+import 'package:gradproj/Screens/welcome_page.dart';
 // import 'package:monkez/NearestBuilding.dart';
 // import 'package:monkez/ServiceNeeds.dart';
 // import 'package:monkez/SetUpProfile3.dart';
@@ -11,16 +19,44 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // import 'package:monkez/home.dart';
 // import 'package:monkez/travelScan.dart';
 import '../Constants/Dimensions.dart';
+import '../models/User.dart';
+import 'Guidance.dart';
+import 'NearestBuilding.dart';
+import 'ServiceNeeds.dart';
+import 'SetupProfile3.dart';
 
 class ContactUS extends StatefulWidget {
   final String uid;
-  const ContactUS({Key? key, required this.uid}) : super(key: key);
+  final User user;
+  const ContactUS({Key? key, required this.uid, required this.user})
+      : super(key: key);
 
   @override
   State<ContactUS> createState() => _ContactUSState();
 }
 
 class _ContactUSState extends State<ContactUS> {
+  Future<Uint8List> getImageData() async {
+    //await widget.uploadInfo();
+
+    String imagePath = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      return documentSnapshot.get('imagePath') as String;
+    });
+
+    Uint8List? imageData =
+        await FirebaseStorage.instance.ref(imagePath).getData();
+
+    if (imageData != null) {
+      return imageData;
+    } else {
+      throw Exception('Failed to load image');
+    }
+  }
+
   RegExp _phoneRegex = RegExp(r'^\d{11}$');
   String? _errorMessage;
   final _formKey = GlobalKey<FormState>();
@@ -74,7 +110,12 @@ class _ContactUSState extends State<ContactUS> {
                   'rating': _initialRating,
                 });
 
-                Navigator.of(context).pop(); // Close rating popup
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MainScreen(
+                            uid: widget.uid,
+                            user: widget.user))); // Close rating popup
                 // Close feedback screen
                 _messageController.clear();
               },
@@ -103,93 +144,150 @@ class _ContactUSState extends State<ContactUS> {
           ),
         ),
       ),
-      // endDrawer: Drawer(
-      //   child: ListView(
-      //     padding: EdgeInsets.zero,
-      //     children: <Widget>[
-      //       DrawerHeader(
-      //         child:Image(
-      //           image: ResizeImage(
-      //               AssetImage('Assets/images/blackLogo.png'),
-      //               width: 1000,
-      //               height: 800),),
-      //         // child: Text('Monkez',style: TextStyle(fontSize: MyDim.fontSizebetween, fontWeight: FontWeight.w700),),
-      //         decoration: BoxDecoration(
-      //           // image: 'Assets/images/logoblack.png',
-      //           color: Colors.black,
-      //         ),
-      //       ),
-      //       ListTile(
-      //         title: Text('Family Community', style: TextStyle(
-      //           fontSize: 18.0,
-      //           fontWeight: FontWeight.bold,
-      //         ),),
-      //         onTap: () {
-      //           Navigator.pop(context); // Close the drawer
-      //           Navigator.push(context, MaterialPageRoute(builder: (context) => userprofile()));
-      //         },
-      //       ),
-      //       ListTile(
-      //         title: Text('Service Needs' , style: TextStyle(
-      //           fontSize: 18.0,
-      //           fontWeight: FontWeight.bold,
-      //         ),),
-      //         onTap: () {
-      //           Navigator.pop(context); // Close the drawer
-      //           Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceNeeds()));
-      //         },
-      //       ),
-      //       ListTile(
-      //         title: Text('Travel Guide' , style: TextStyle(
-      //           fontSize: 18.0,
-      //           fontWeight: FontWeight.bold,
-      //         ),),
-      //         onTap: () {
-      //           Navigator.pop(context); // Close the drawer
-      //           Navigator.push(context, MaterialPageRoute(builder: (context) => TravelGuide()));
-      //         },
-      //       ),
-      //
-      //       ListTile(
-      //         title: Text('Nearest Building' , style: TextStyle(
-      //           fontSize: 18.0,
-      //           fontWeight: FontWeight.bold,
-      //         ),),
-      //         onTap: () {
-      //           Navigator.pop(context); // Close the drawer
-      //           Navigator.push(context, MaterialPageRoute(builder: (context) => NearestBuilding()));
-      //         }, ),
-      //       ListTile(
-      //         title: Text('Guidance' , style: TextStyle(
-      //           fontSize: 18.0,
-      //           fontWeight: FontWeight.bold,
-      //         ),),
-      //         onTap: () {
-      //           Navigator.pop(context); // Close the drawer
-      //           Navigator.push(context, MaterialPageRoute(builder: (context) => Guidance()));
-      //         }, ),
-      //       ListTile(
-      //         title: Text('Edit Profile' , style: TextStyle(
-      //           fontSize: 18.0,
-      //           fontWeight: FontWeight.bold,
-      //         ),),
-      //         onTap: () {
-      //           Navigator.pop(context); // Close the drawer
-      //           Navigator.push(context, MaterialPageRoute(builder: (context) => SetupProfile3()));
-      //         }, ),
-      //       ListTile(
-      //         title: Text('Logout' , style: TextStyle(
-      //           fontSize: 18.0,
-      //           fontWeight: FontWeight.bold,
-      //         ),),
-      //         onTap: () {
-      //           Navigator.pop(context); // Close the drawer
-      //           Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
-      //         }, ),
-      //     ],
-      //   ),
-      // ),
-
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Image(
+                image: ResizeImage(AssetImage('Assets/images/blackLogo.png'),
+                    width: 1000, height: 800),
+              ),
+              // child: Text('Monkez',style: TextStyle(fontSize: MyDim.fontSizebetween, fontWeight: FontWeight.w700),),
+              decoration: BoxDecoration(
+                // image: 'Assets/images/logoblack.png',
+                color: Colors.black,
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Family Community',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => userprofile(
+                              uid: widget.uid,
+                              user: widget.user,
+                              getImageData: getImageData,
+                            )));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Service Needs',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ServiceNeeds(
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Travel Guide',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TravelGuide(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Nearest Building',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NearestBuilding(
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Guidance',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Guidance(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Edit Profile',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditProfile(uid: widget.uid)));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Logout',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WelcomePage()));
+              },
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -253,6 +351,7 @@ class _ContactUSState extends State<ContactUS> {
                         }
                       });
                     },
+                    maxLength: 11,
                     style: TextStyle(fontSize: 20.0),
                     decoration: InputDecoration(
                       errorText: _errorMessage,

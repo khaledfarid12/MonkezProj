@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gradproj/Screens/CategoriesSetUp2.dart';
+import 'package:gradproj/Screens/EditProfile.dart';
 import 'package:gradproj/Screens/UserService.dart';
 import 'package:gradproj/Screens/searchnew.dart';
 import 'package:path/path.dart';
@@ -10,7 +12,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Screens/friend_requests.dart';
-import '../Screens/setupprofile1.dart';
+import 'SetUpProfile1.dart';
 
 class userprofile extends StatefulWidget {
   final User user;
@@ -81,27 +83,23 @@ class _userprofileState extends State<userprofile> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ClipOval(
-                      child: CircleAvatar(
-                        radius: 80,
-                        backgroundColor: Colors.transparent,
-                        child: FutureBuilder<Uint8List>(
-                          future: widget.getImageData(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Image.memory(
-                                snapshot.data!,
-                                width: 190,
-                                height: 200,
-                                fit: BoxFit.cover,
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text('${snapshot.error}');
-                            } else {
-                              return CircularProgressIndicator();
-                            }
-                          },
-                        ),
+                    child: CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Colors.transparent,
+                      child: FutureBuilder<Uint8List>(
+                        future: widget.getImageData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return CircleAvatar(
+                              backgroundImage: MemoryImage(snapshot.data!),
+                              radius: 80,
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -135,7 +133,17 @@ class _userprofileState extends State<userprofile> {
                                       BorderSide(color: Colors.black, width: 2),
                                   borderRadius: BorderRadius.circular(10.0))),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditProfile(uid: widget.uid),
+                              ),
+                            );
+                          });
+                        },
                         child: Text('Edit Profile',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16)),
@@ -280,7 +288,19 @@ class _userprofileState extends State<userprofile> {
                         borderRadius: BorderRadius.circular(12),
                       ) //<-- SEE HERE
                       ),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CategoriesSetUp2(
+                            user: widget.user,
+                            uid: widget.uid,
+                          ),
+                        ),
+                      );
+                    });
+                  },
                   icon: Icon(
                     // <-- Icon
                     Icons.folder,
