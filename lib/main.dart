@@ -8,7 +8,7 @@ import 'package:gradproj/Screens/welcome_page.dart';
 import 'screens/signup_form_widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import '../screens/profile.dart';
+import 'package:gradproj/Screens/ContactUs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: WelcomePage(),
+      home: LoginScreen(),
       theme: ThemeData(fontFamily: 'flu', primarySwatch: Colors.cyan),
     );
   }

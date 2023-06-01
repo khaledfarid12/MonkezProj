@@ -79,64 +79,6 @@ class _SetupProfile3State extends State<SetupProfile3> {
     }
   }
 
-  // Future _uploadinfo() async {
-  //   String imageUrl = "";
-  //   if (image != null) {
-  //     try {
-  //       final fileName = image!.path.split('/').last;
-  //       final destination = 'images/$fileName';
-  //
-  //       final ref =
-  //           firebase_storage.FirebaseStorage.instance.ref().child(destination);
-  //       imageUrl = await ref.getDownloadURL();
-  //       await ref.putFile(image!);
-  //       ScaffoldMessenger.of(context)
-  //           .showSnackBar(SnackBar(content: Text('Image uploaded')));
-  //     } on FirebaseException catch (e) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(content: Text('Failed to upload image: $e')));
-  //     }
-  //
-  //     FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
-  //       'location': dropdownvalue,
-  //       'birthDate': dateinput.text,
-  //       'imagePath': imageUrl,
-  //       'publicDocs': publicDocs,
-  //     });
-  //   } else {
-  //     FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
-  //       'location': dropdownvalue,
-  //       'birthDate': dateinput.text,
-  //       'imagePath': 'No avatar',
-  //       'publicDocs': publicDocs,
-  //     });
-  //   }
-  //   final userRef =
-  //       FirebaseFirestore.instance.collection("users").doc(widget.uid);
-  //   final userDoc = await userRef.get();
-  //   final userData = userDoc.data()!;
-  //   await userRef.update(userData);
-  //
-  //   // Retrieve the updated user data
-  //   final user = await UserService.getUserData(widget.uid);
-  //   if (user == null) {
-  //     print('Error retrieving user data');
-  //     // Handle the error here, such as displaying a message to the user
-  //     return;
-  //   }
-  //
-  //   // Navigate to the ProfileScreen page with the updated user data
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => userprofile(
-  //         uid: widget.uid,
-  //         user: user,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Future uploadinfo() async {
     if (image != null) {
       final path = 'userAvatars/${p.basename(image!.path)}';
@@ -214,27 +156,6 @@ class _SetupProfile3State extends State<SetupProfile3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Setup Profile 3',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: MyDim.fontSizebetween,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()));
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-              size: MyDim.fontSizeButtons,
-            )),
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

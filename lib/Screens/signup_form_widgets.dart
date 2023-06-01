@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gradproj/Screens/ContactUs.dart';
 import 'package:gradproj/Screens/login_screen.dart';
 import '../Constants/Dimensions.dart';
 import 'SetupProfile3.dart';
@@ -571,6 +570,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             builder: (context) => SetupProfile3(uid: uid),
           ),
         );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => ContactUS(uid: uid),
+        //   ),
+        // );
 
         //Navigator.pop(context);
       } catch (error) {
