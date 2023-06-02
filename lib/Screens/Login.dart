@@ -152,18 +152,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 30,
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(top: 210, left: 30),
-                    child: GestureDetector(
-                      child: Text(
-                        'Forget password ?',
-                        style: TextStyle(
-                            fontSize: 14,
-                            decoration: TextDecoration.underline,
-                            color: Colors.black),
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 210, left: 30),
+                  //   child: GestureDetector(
+                  //     child: Text(
+                  //       'Forget password ?',
+                  //       style: TextStyle(
+                  //           fontSize: 14,
+                  //           decoration: TextDecoration.underline,
+                  //           color: Colors.black),
+                  //     ),
+                  //   ),
+                  // ),
 
                   SizedBox(
                     height: 10,

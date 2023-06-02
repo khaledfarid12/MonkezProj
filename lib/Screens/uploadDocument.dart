@@ -119,7 +119,11 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       if (downloadUrl != null) {
-        FirebaseFirestore.instance.collection('documents').add({
+        DocumentReference docRef =
+            FirebaseFirestore.instance.collection('users').doc(widget.uid);
+
+        // Create the "documents" subcollection
+        await docRef.collection('documents').doc(widget.uid).set({
           'downloadUrl': downloadUrl,
           'expiryDate': _expiryDate,
           'uploadedAt': DateTime.now(),

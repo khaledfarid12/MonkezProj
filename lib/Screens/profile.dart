@@ -315,7 +315,7 @@ class _userprofileState extends State<userprofile> {
                     color: Color.fromARGB(255, 66, 65, 65),
                     size: 50.0,
                   ),
-                  label: Text('MY Documents',
+                  label: Text('My Documents',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
