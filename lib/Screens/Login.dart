@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
-                          labelText: 'Username',
+                          labelText: 'Email',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           ),
