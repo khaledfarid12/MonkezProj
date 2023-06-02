@@ -14,6 +14,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Screens/friend_requests.dart';
 import 'SetUpProfile1.dart';
+import 'home.dart';
 
 class userprofile extends StatefulWidget {
   final User user;
@@ -75,7 +76,13 @@ class _userprofileState extends State<userprofile> {
                     size: 50,
                   ),
                   tooltip: 'back Icon',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainScreen(
+                                uid: widget.uid, user: widget.user)));
+                  },
                   style: IconButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 0, 0, 0)),
                 ),
