@@ -73,6 +73,12 @@ class _EditProfileState extends State<EditProfile> {
       final tempImg = File(image.path);
       setState(() {
         this.image = tempImg;
+        final path = 'userAvatars/${p.basename(image!.path)}';
+        final ref = FirebaseStorage.instance.ref().child(path);
+        ref.putFile(tempImg);
+        FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
+          'imagePath': path,
+        });
       });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
@@ -80,25 +86,12 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future uploadinfo() async {
-    if (image != null) {
-      final path = 'userAvatars/${p.basename(image!.path)}';
-      final ref = FirebaseStorage.instance.ref().child(path);
-      ref.putFile(image!);
+    FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
+      'location': dropdownvalue,
+      'birthDate': dateinput.text,
+      'publicDocs': publicDocs,
+    });
 
-      FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
-        'location': dropdownvalue,
-        'birthDate': dateinput.text,
-        'imagePath': path,
-        'publicDocs': publicDocs,
-      });
-    } else {
-      FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
-        'location': dropdownvalue,
-        'birthDate': dateinput.text,
-        'imagePath': 'userAvatars/circleAvatar.png',
-        'publicDocs': publicDocs,
-      });
-    }
     final userRef =
         FirebaseFirestore.instance.collection("users").doc(widget.uid);
     final userDoc = await userRef.get();
