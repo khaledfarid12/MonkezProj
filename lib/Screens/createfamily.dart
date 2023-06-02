@@ -218,7 +218,8 @@ class _createFamilyState extends State<createFamily> {
                 height: 60.0,
                 child: TextButton(
                     onPressed: () {
-                      createFamilyCommunitySubcollection(widget.uid);
+                      createFamilyCommunitySubcollection(
+                          widget.uid, widget.senderuser);
                     },
                     child: Text(
                       'Create',
@@ -233,7 +234,8 @@ class _createFamilyState extends State<createFamily> {
     );
   }
 
-  Future<void> createFamilyCommunitySubcollection(String documentId) async {
+  Future<void> createFamilyCommunitySubcollection(
+      String documentId, User senduser) async {
     final familyname = _familynameController.text.trim();
     // Check if the username is already taken
 
@@ -255,12 +257,18 @@ class _createFamilyState extends State<createFamily> {
       // Create the "familycommunity" subcollection
       await docRef.collection(familyname).doc().set({
         'name': familyname,
-        'description': 'This is the family community ',
+        'ownerid': documentId,
+      });
+      await docRef.collection(familyname).doc(documentId).set({
+        'name': senduser.username,
+        'email': senduser.email,
+        'avatar': senduser.imagePath
       });
       print('Family community subcollection created successfully.');
     } catch (e) {
       print('Error creating family community subcollection: $e');
     }
+
     Navigator.push(
         context,
         MaterialPageRoute(

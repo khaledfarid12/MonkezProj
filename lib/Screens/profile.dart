@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradproj/Screens/UserService.dart';
+import 'package:gradproj/Screens/family_request.dart';
 import 'package:gradproj/Screens/searchnew.dart';
 import 'package:path/path.dart';
 import '../models/members.dart';
@@ -51,8 +52,8 @@ class _userprofileState extends State<userprofile> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          FriendRequestsScreen(userId: widget.uid),
+                      builder: (context) => FamilyRequestsScreen(
+                          userId: widget.uid, user: widget.user),
                     ),
                   );
                 },
