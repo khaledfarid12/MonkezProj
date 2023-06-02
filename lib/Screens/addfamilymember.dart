@@ -21,7 +21,7 @@ class AddFamilyMember extends StatefulWidget {
 
 class _AddFamilyMemberState extends State<AddFamilyMember> {
   String _searchQuery = '';
-  String text = "Add Friend To Your Family Community ";
+  String text = "Add members To Your Family Community ";
 
   List<User> _searchResults = [];
 
@@ -76,7 +76,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
     final friendRequestsRef = _firestore
         .collection('users')
         .doc(userId)
-        .collection(widget.familyname)
+        .collection("familyRequests")
         .doc(currentUserId);
     final friendRequestsSnapshot = await friendRequestsRef.get();
     if (friendRequestsSnapshot.exists) {
@@ -85,7 +85,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
       if (status == 'pending' && friendUserId == currentUserId) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Friend request already sent.'),
+            content: Text('family request already sent.'),
           ),
         );
         return;
