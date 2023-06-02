@@ -95,7 +95,7 @@ class _EditProfileState extends State<EditProfile> {
       FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
         'location': dropdownvalue,
         'birthDate': dateinput.text,
-        'imagePath': 'No avatar',
+        'imagePath': 'userAvatars/circleAvatar.png',
         'publicDocs': publicDocs,
       });
     }
@@ -203,31 +203,47 @@ class _EditProfileState extends State<EditProfile> {
               child: Row(
                 children: [
                   Expanded(
-                    child: CircleAvatar(
-                      radius: 80,
-                      backgroundColor: Colors.transparent,
-                      child: FutureBuilder<Uint8List>(
-                        future: getImageData(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return CircleAvatar(
-                              backgroundImage: MemoryImage(snapshot.data!),
+                      child: image != null
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipOval(
+                                child: CircleAvatar(
+                                  radius: 60,
+                                  child: Image.file(
+                                    image!,
+                                    width: 150,
+                                    height: 170,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : CircleAvatar(
                               radius: 80,
-                            );
-                          }
-                          // else if (snapshot.hasData == false) {
-                          // //   return Image.asset(
-                          // //       'Assets/images/circleAvatar.png');
-                          // }
-                          else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          } else {
-                            return CircularProgressIndicator();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
+                              backgroundColor: Colors.transparent,
+                              child: FutureBuilder<Uint8List>(
+                                future: getImageData(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return CircleAvatar(
+                                      backgroundImage:
+                                          MemoryImage(snapshot.data!),
+                                      radius: 80,
+                                    );
+                                  }
+                                  // else if (snapshot.hasData == false) {
+                                  // //   return Image.asset(
+                                  // //       'Assets/images/circleAvatar.png');
+                                  // }
+                                  // else if (snapshot.hasError) {
+                                  //   return Text('${snapshot.error}');
+                                  // }
+                                  else {
+                                    return CircularProgressIndicator();
+                                  }
+                                },
+                              ),
+                            )),
                   SizedBox(
                     width: 2,
                   ),

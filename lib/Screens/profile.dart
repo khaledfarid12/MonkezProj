@@ -94,8 +94,8 @@ class _userprofileState extends State<userprofile> {
                               backgroundImage: MemoryImage(snapshot.data!),
                               radius: 80,
                             );
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
+                            // } else if (snapshot.hasError) {
+                            //   return Text('${snapshot.error}');
                           } else {
                             return CircularProgressIndicator();
                           }

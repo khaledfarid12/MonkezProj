@@ -95,8 +95,7 @@ class _SetupProfile3State extends State<SetupProfile3> {
       FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
         'location': dropdownvalue,
         'birthDate': dateinput.text,
-        'imagePath':
-            'gs://myfirstproj-9aaf3.appspot.com/userAvatars/circleAvatar.png',
+        'imagePath': 'userAvatars/circleAvatar.png',
         'publicDocs': publicDocs,
       });
     }
