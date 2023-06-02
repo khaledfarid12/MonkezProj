@@ -3,32 +3,32 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:gradproj/Screens/ContactUs.dart';
 import 'package:gradproj/Screens/EditProfile.dart';
 import '../models/User.dart';
+import 'ContactUs.dart';
 import 'NearestBuilding.dart';
-import 'ServiceNeeds.dart';
 import 'SetupProfile3.dart';
 import 'profile.dart';
 import 'welcome_page.dart';
+import 'Guidance.dart';
 import 'home.dart';
 import 'travelScan.dart';
 import '../Constants/Dimensions.dart';
 import '../Constants/DocumentButton.dart';
-import '../Constants/guidanceData.dart';
-import '../Constants/designConstants.dart';
+import '../Constants/ServiceNeeds.dart';
+import 'package:gradproj/Constants/designConstants.dart';
 
-class Guidance extends StatefulWidget {
+class ServiceNeeds extends StatefulWidget {
   final String uid;
   final User user;
-  const Guidance({Key? key, required this.uid, required this.user})
+  const ServiceNeeds({Key? key, required this.uid, required this.user})
       : super(key: key);
 
   @override
-  State<Guidance> createState() => _GuidanceState();
+  State<ServiceNeeds> createState() => _ServiceNeedsState();
 }
 
-class _GuidanceState extends State<Guidance> {
+class _ServiceNeedsState extends State<ServiceNeeds> {
   Future<Uint8List> getImageData() async {
     //await widget.uploadInfo();
 
@@ -94,28 +94,9 @@ class _GuidanceState extends State<Guidance> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => userprofile(
-                              uid: widget.uid,
                               user: widget.user,
+                              uid: widget.uid,
                               getImageData: getImageData,
-                            )));
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Service Needs',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ServiceNeeds(
-                              user: widget.user,
-                              uid: widget.uid,
                             )));
               },
             ),
@@ -132,8 +113,10 @@ class _GuidanceState extends State<Guidance> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            TravelGuide(user: widget.user, uid: widget.uid)));
+                        builder: (context) => TravelGuide(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
@@ -168,6 +151,23 @@ class _GuidanceState extends State<Guidance> {
                     MaterialPageRoute(
                         builder: (context) => NearestBuilding(
                             user: widget.user, uid: widget.uid)));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Guidance',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Guidance(user: widget.user, uid: widget.uid)));
               },
             ),
             ListTile(
@@ -249,7 +249,7 @@ class _GuidanceState extends State<Guidance> {
                       padding: const EdgeInsets.all(8.0),
                       child: Image(
                         image: ResizeImage(
-                            AssetImage('Assets/images/guidance.png'),
+                            AssetImage('Assets/images/img_13.png'),
                             width: 50,
                             height: 70),
                       ),
@@ -257,7 +257,7 @@ class _GuidanceState extends State<Guidance> {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
-                        'Guidance',
+                        'Service Needs',
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -271,7 +271,7 @@ class _GuidanceState extends State<Guidance> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
-                "Which document do you want to inquire about ?",
+                "Choose the service that you need",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -292,13 +292,6 @@ class _GuidanceState extends State<Guidance> {
                 image: 'Assets/images/IDNeeds.png',
                 label: 'National ID',
                 clickdoc: openDialogID),
-            SizedBox(
-              height: MyDim.SizedBoxtiny * 1,
-            ),
-            DocumentButton(
-                image: 'Assets/images/certificateNeeds.png',
-                label: 'High school certificate',
-                clickdoc: openDialogHS),
             SizedBox(
               height: MyDim.SizedBoxtiny * 1,
             ),
@@ -334,10 +327,6 @@ class _GuidanceState extends State<Guidance> {
       builder: (context) =>
           InstructionsPopUp(onpressed: Done, steps: NationalID()));
 
-  Future openDialogHS() => showDialog(
-      context: context,
-      builder: (context) =>
-          InstructionsPopUp(onpressed: Done, steps: HighSchool()));
   Future openDialogDriver() => showDialog(
       context: context,
       builder: (context) =>

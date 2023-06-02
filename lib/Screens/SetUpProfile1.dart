@@ -1,3 +1,7 @@
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +9,7 @@ import '../models/User.dart';
 import '../screens/profile.dart';
 import '../Screens/createfamily.dart';
 import '../Constants/Dimensions.dart';
+import 'CategoriesSetUp2.dart';
 
 class SetUpProfile1 extends StatefulWidget {
   final String uid;
@@ -20,6 +25,27 @@ class _SetProfileoneState extends State<SetUpProfile1> {
   var radius = 12;
   bool? yesBox = false;
   bool? noBox = false;
+
+  Future<Uint8List> getImageData() async {
+    //await widget.uploadInfo();
+
+    String imagePath = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      return documentSnapshot.get('imagePath') as String;
+    });
+
+    Uint8List? imageData =
+        await FirebaseStorage.instance.ref(imagePath).getData();
+
+    if (imageData != null) {
+      return imageData;
+    } else {
+      throw Exception('Failed to load image');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,18 +182,31 @@ class _SetProfileoneState extends State<SetUpProfile1> {
               height: MyDim.SizedBoxtiny * 3.5,
             ),
             Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Color(0xFF00CDD0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Color(0xFF00CDD0),
+              ),
+              width: MyDim.myWidth(context) * 0.4,
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => userprofile(
+                                  uid: widget.uid,
+                                  user: widget.senderuser,
+                                  getImageData: getImageData,
+                                )));
+                  });
+                },
+                child: Text(
+                  'Next',
+                  style: TextStyle(
+                      color: Colors.white, fontSize: MyDim.fontSizeButtons),
                 ),
-                width: MyDim.myWidth(context) * 0.4,
-                child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Next',
-                      style: TextStyle(
-                          color: Colors.white, fontSize: MyDim.fontSizeButtons),
-                    ))),
+              ),
+            ),
             SizedBox(
               height: MyDim.SizedBoxtiny * 2,
             ),
@@ -251,14 +290,26 @@ class _SetProfileoneState extends State<SetUpProfile1> {
                   SizedBox(
                     width: MyDim.paddingUnit * 2,
                   ),
-                  // GestureDetector(
-                  //   onTap: (){
-                  //     setState(() {
-                  //       Navigator.push(context,MaterialPageRoute(builder:(context)=>CategoriesSetUp2()));
-                  //     });
-                  //   },
-                  //   child:Text('Skip',style: TextStyle(color: Colors.grey,decoration:TextDecoration.underline,fontWeight: FontWeight.bold),),
-                  // )
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoriesSetUp2(
+                                      user: widget.senderuser,
+                                      uid: widget.uid,
+                                    )));
+                      });
+                    },
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
                 ],
               ),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gradproj/Screens/login_screen.dart';
-import 'package:gradproj/Screens/signup_form_widgets.dart';
+import 'SignUp.dart';
+import 'Login.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -83,7 +83,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RegisterScreen(),
+                              builder: (context) => SignUpScreen(),
                             ),
                           );
                         },

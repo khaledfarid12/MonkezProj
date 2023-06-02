@@ -18,16 +18,16 @@ import 'package:path/path.dart' as p;
 import 'UserService.dart';
 import 'testprofile.dart';
 
-class SetupProfile3 extends StatefulWidget {
+class EditProfile extends StatefulWidget {
   final String uid;
 
-  const SetupProfile3({Key? key, required this.uid}) : super(key: key);
+  const EditProfile({Key? key, required this.uid}) : super(key: key);
 
   @override
-  State<SetupProfile3> createState() => _SetupProfile3State();
+  State<EditProfile> createState() => _EditProfileState();
 }
 
-class _SetupProfile3State extends State<SetupProfile3> {
+class _EditProfileState extends State<EditProfile> {
   String? selecteditem = 'Cairo';
   String imageUrl = '';
 
@@ -95,8 +95,7 @@ class _SetupProfile3State extends State<SetupProfile3> {
       FirebaseFirestore.instance.collection("users").doc(widget.uid).update({
         'location': dropdownvalue,
         'birthDate': dateinput.text,
-        'imagePath':
-            'gs://myfirstproj-9aaf3.appspot.com/userAvatars/circleAvatar.png',
+        'imagePath': 'No avatar',
         'publicDocs': publicDocs,
       });
     }
@@ -118,13 +117,8 @@ class _SetupProfile3State extends State<SetupProfile3> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SetUpProfile1(
-          uid: widget.uid,
-          senderuser: user,
-
-          //uploadInfo: uploadinfo,
-        ),
-      ),
+          builder: (context) => userprofile(
+              user: user, uid: widget.uid, getImageData: getImageData)),
     );
     // Navigator.push(
     //   context,
@@ -209,27 +203,30 @@ class _SetupProfile3State extends State<SetupProfile3> {
               child: Row(
                 children: [
                   Expanded(
-                    child: image != null
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ClipOval(
-                              child: CircleAvatar(
-                                radius: 60,
-                                child: Image.file(
-                                  image!,
-                                  width: 150,
-                                  height: 170,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          )
-                        : const CircleAvatar(
-                            radius: 60,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage:
-                                AssetImage('Assets/images/circleAvatar.png'),
-                          ),
+                    child: CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Colors.transparent,
+                      child: FutureBuilder<Uint8List>(
+                        future: getImageData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return CircleAvatar(
+                              backgroundImage: MemoryImage(snapshot.data!),
+                              radius: 80,
+                            );
+                          }
+                          // else if (snapshot.hasData == false) {
+                          // //   return Image.asset(
+                          // //       'Assets/images/circleAvatar.png');
+                          // }
+                          else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 2,
@@ -641,16 +638,16 @@ class _SetupProfile3State extends State<SetupProfile3> {
                       SizedBox(
                         width: MyDim.paddingUnit * 2,
                       ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Text(
-                          'Skip',
-                          style: TextStyle(
-                              color: Colors.grey,
-                              decoration: TextDecoration.underline,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      )
+                      // GestureDetector(
+                      //   onTap: () {},
+                      //   child: Text(
+                      //     'Skip',
+                      //     style: TextStyle(
+                      //         color: Colors.grey,
+                      //         decoration: TextDecoration.underline,
+                      //         fontWeight: FontWeight.bold),
+                      //   ),
+                      // )
                     ],
                   ),
                 )
