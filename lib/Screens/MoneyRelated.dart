@@ -292,6 +292,7 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                docname: 'Visa',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -302,7 +303,7 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                               ),
                             ),
                             Text(
-                              'Visas',
+                              'Visa',
                               style: TextStyle(
                                 fontSize: 22.0,
                                 fontWeight: FontWeight.bold,
@@ -341,7 +342,14 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                             ),
                             IconButton(
                               onPressed: () {
-                                onClick();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DocumentUploadScreen2(
+                                                docname: 'Bank Certificates',
+                                                user: widget.user,
+                                                uid: widget.uid)));
                               },
                               icon: Icon(
                                 Icons.add_circle_outline,
@@ -394,7 +402,13 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                         ),
                         IconButton(
                           onPressed: () {
-                            onClick();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DocumentUploadScreen2(
+                                        docname: 'Money Check',
+                                        user: widget.user,
+                                        uid: widget.uid)));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
@@ -437,7 +451,13 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                         ),
                         IconButton(
                           onPressed: () {
-                            onClick();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DocumentUploadScreen2(
+                                        docname: 'Bill',
+                                        user: widget.user,
+                                        uid: widget.uid)));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
@@ -511,220 +531,5 @@ class _MoneyRelatedState extends State<MoneyRelated> {
         ),
       ),
     );
-  }
-
-  void onClick() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            child: AlertDialog(
-              backgroundColor: Colors.white,
-              title: Container(
-                width: 600,
-                height: 170,
-                child: Row(
-                  children: [
-                    //Upload
-                    Column(
-                      children: [
-                        Image.asset(
-                          'Assets/images/upload.png',
-                          color: Colors.black,
-                          width: 90.0,
-                          height: 90.0,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Color(0xFF00CDD0)),
-                          width: 100.0,
-                          height: 50.0,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Upload',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 20.0),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    //Camera
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: MyDim.paddingUnit * 1,
-                          left: MyDim.paddingUnit * 3.5),
-                      child: Expanded(
-                          child: Column(
-                        children: [
-                          Image.asset(
-                            'Assets/images/camera.png',
-                            color: Colors.black,
-                            width: 100.0,
-                            height: 90.0,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Color(0xFF00CDD0)),
-                            width: 100.0,
-                            height: 50.0,
-                            child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Camera',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20.0),
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
-                    ),
-                  ],
-                ),
-              ),
-              content: Container(
-                child: Stack(
-                  children: [
-                    //Expire Date text
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 2.0),
-                      child: Text(
-                        'Expire Date',
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-
-                    //calender + date textfield
-                    Center(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(right: 10, bottom: 200.0),
-                        child: TextField(
-                          controller:
-                              dateinput, //editing controller of this TextField
-                          decoration: InputDecoration(
-                            icon: Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Icon(Icons.calendar_today,
-                                  color: Colors.cyan),
-                            ), //icon of text field
-                            labelText: "  Enter a date",
-                            labelStyle:
-                                TextStyle(color: Colors.black, fontSize: 18.0),
-
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide:
-                                  BorderSide(width: 2, color: Colors.black),
-                            ),
-                          ),
-                          readOnly: true,
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime(2001),
-                                firstDate: DateTime(
-                                    1920), //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2009));
-
-                            if (pickedDate != null) {
-                              print(
-                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                              String formattedDate =
-                                  DateFormat('dd-MM-yyyy').format(pickedDate);
-                              print(
-                                  formattedDate); //formatted date output using intl package =>  2021-03-16
-                              //you can implement different kind of Date Format here according to your requirement
-
-                              setState(() {
-                                dateinput.text =
-                                    formattedDate; //set output date to TextField value.
-                              });
-                            } else {
-                              print("Date is not selected");
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-
-                    //OK Button
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 50.0,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Color(0xFF00CDD0)),
-                          width: 200.0,
-                          height: 50.0,
-                          child: TextButton(
-                            onPressed: () {
-                              setState(() {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CategoriesSetUp2(
-                                            user: widget.user,
-                                            uid: widget.uid)));
-                              });
-                            },
-                            child: Text(
-                              'Done',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 20.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    //Cancel Button
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 180.0,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Color(0xFF00CDD0)),
-                          width: 200.0,
-                          height: 50.0,
-                          child: TextButton(
-                            onPressed: () {
-                              setState(() {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MoneyRelated(
-                                            user: widget.user,
-                                            uid: widget.uid)));
-                              });
-                            },
-                            child: Text(
-                              'Cancel',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 20.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
   }
 }

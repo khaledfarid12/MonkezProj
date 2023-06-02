@@ -293,6 +293,7 @@ class _EducationState extends State<Education> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                docname: 'High School',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -344,6 +345,7 @@ class _EducationState extends State<Education> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                docname: 'Bachelor degree',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -400,7 +402,10 @@ class _EducationState extends State<Education> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                        user: widget.user, uid: widget.uid)));
+                                          user: widget.user,
+                                          uid: widget.uid,
+                                          docname: 'Courses',
+                                        )));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
@@ -447,7 +452,10 @@ class _EducationState extends State<Education> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                        user: widget.user, uid: widget.uid)));
+                                          user: widget.user,
+                                          uid: widget.uid,
+                                          docname: 'Online Courses',
+                                        )));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,

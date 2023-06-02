@@ -22,6 +22,7 @@ import 'uploadDocument.dart';
 class SetProfile2 extends StatefulWidget {
   final User user;
   final String uid;
+
   const SetProfile2({Key? key, required this.user, required this.uid})
       : super(key: key);
 
@@ -294,8 +295,10 @@ class _SetProfile2State extends State<SetProfile2> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
-                                                user: widget.user,
-                                                uid: widget.uid)));
+                                              user: widget.user,
+                                              uid: widget.uid,
+                                              docname: 'National ID',
+                                            )));
                               },
                               icon: Icon(
                                 Icons.add_circle_outline,
@@ -348,6 +351,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                docname: 'Passport',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -406,7 +410,10 @@ class _SetProfile2State extends State<SetProfile2> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                        user: widget.user, uid: widget.uid)));
+                                          user: widget.user,
+                                          uid: widget.uid,
+                                          docname: 'Driving License',
+                                        )));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
@@ -415,7 +422,7 @@ class _SetProfile2State extends State<SetProfile2> {
                           ),
                         ),
                         Text(
-                          'Driving Lisence',
+                          'Driving License',
                           style: TextStyle(
                             fontSize: 22.0,
                             fontWeight: FontWeight.bold,
@@ -453,7 +460,10 @@ class _SetProfile2State extends State<SetProfile2> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                        user: widget.user, uid: widget.uid)));
+                                          user: widget.user,
+                                          uid: widget.uid,
+                                          docname: 'BirthCertificate',
+                                        )));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,

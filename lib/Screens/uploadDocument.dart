@@ -13,9 +13,13 @@ import 'MoneyRelated.dart';
 class DocumentUploadScreen2 extends StatefulWidget {
   final String uid;
   final User user;
+  final String docname;
 
   const DocumentUploadScreen2(
-      {super.key, required this.uid, required this.user});
+      {super.key,
+      required this.uid,
+      required this.user,
+      required this.docname});
   @override
   _DocumentUploadScreenState createState() => _DocumentUploadScreenState();
 }
@@ -123,10 +127,9 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
             FirebaseFirestore.instance.collection('users').doc(widget.uid);
 
         // Create the "documents" subcollection
-        await docRef.collection('documents').doc(widget.uid).set({
-          'downloadUrl': downloadUrl,
-          'expiryDate': _expiryDate,
-          'uploadedAt': DateTime.now(),
+        await docRef.collection('documents').doc(widget.uid).update({
+          widget.docname: downloadUrl,
+          'expiryDateOf${widget.docname}': _expiryDate,
         }).then((value) => showDialog(
             context: context,
             builder: (BuildContext context) {

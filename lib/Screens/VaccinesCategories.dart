@@ -293,6 +293,7 @@ class _VaccinesState extends State<Vaccines> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                docname: 'Covid Vaccine',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -347,6 +348,7 @@ class _VaccinesState extends State<Vaccines> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                docname: 'Newborn Vaccines',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -405,7 +407,10 @@ class _VaccinesState extends State<Vaccines> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                        user: widget.user, uid: widget.uid)));
+                                          user: widget.user,
+                                          uid: widget.uid,
+                                          docname: 'Other vaccines',
+                                        )));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
