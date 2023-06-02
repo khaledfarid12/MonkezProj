@@ -145,6 +145,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
                 ],
               );
             }));
+
         int daysUntilExpiry = _expiryDate!.difference(DateTime.now()).inDays;
         if (daysUntilExpiry <= 10) {
           await _showNotification('Document Expiring Soon',
