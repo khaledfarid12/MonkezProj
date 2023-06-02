@@ -30,7 +30,31 @@ class MyPersonalDocs extends StatefulWidget {
 }
 
 class _MyPersonalDocsState extends State<MyPersonalDocs> {
+  String? _downloadUrl;
+
   @override
+  void initState() {
+    super.initState();
+    _getImageUrl();
+  }
+
+  Future<void> _getImageUrl() async {
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('users').doc(widget.uid);
+    DocumentSnapshot documentSnapshot =
+        await docRef.collection('documents').doc(widget.uid).get();
+
+    String imagePath = documentSnapshot.get('National ID');
+
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference ref = storage.ref().child(imagePath);
+    String downloadUrl = await ref.getDownloadURL();
+
+    setState(() {
+      _downloadUrl = downloadUrl;
+    });
+  }
+
   Future<Uint8List> getImageData() async {
     DocumentReference docRef =
         FirebaseFirestore.instance.collection('users').doc(widget.uid);
@@ -53,6 +77,7 @@ class _MyPersonalDocsState extends State<MyPersonalDocs> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: new Drawer(),
@@ -78,7 +103,7 @@ class _MyPersonalDocsState extends State<MyPersonalDocs> {
                   //National ID
                   Container(
                     width: MyDim.myWidth(context) * 0.44,
-                    height: MyDim.myHeight(context) * 0.35,
+                    height: MyDim.myHeight(context) * 0.5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
@@ -106,18 +131,12 @@ class _MyPersonalDocsState extends State<MyPersonalDocs> {
                               ),
                             ),
                           ),
-                          CircleAvatar(
-                            radius: 80,
-                            backgroundColor: Colors.transparent,
+                          Container(
                             child: FutureBuilder<Uint8List>(
                               future: getImageData(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  return CircleAvatar(
-                                    backgroundImage:
-                                        MemoryImage(snapshot.data!),
-                                    radius: 80,
-                                  );
+                                  return Image.memory(snapshot.data!);
                                 }
                                 // else if (snapshot.hasData == false) {
                                 // //   return Image.asset(

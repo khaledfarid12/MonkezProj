@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path/path.dart' as p;
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -117,9 +118,14 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
     });
     try {
       String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference storageReference =
-          FirebaseStorage.instance.ref().child('documents/$fileName');
-      UploadTask uploadTask = storageReference.putFile(_selectedImage!);
+      final path = 'documents/${p.basename(_selectedImage!.path)}';
+      final ref = FirebaseStorage.instance.ref().child(path);
+
+      // Reference storageReference = FirebaseStorage.instance
+      //     .ref()
+      //     .child('documents/${p.basename(_selectedImage!.path)}');
+
+      UploadTask uploadTask = ref.putFile(_selectedImage!);
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       if (downloadUrl != null) {
@@ -128,7 +134,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
 
         // Create the "documents" subcollection
         await docRef.collection('documents').doc(widget.uid).update({
-          widget.docname: downloadUrl,
+          widget.docname: path,
           'expiryDateOf${widget.docname}': _expiryDate,
         }).then((value) => showDialog(
             context: context,
