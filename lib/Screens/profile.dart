@@ -5,6 +5,7 @@ import 'package:gradproj/Screens/UserService.dart';
 import 'package:gradproj/Screens/addfamilymember.dart';
 import 'package:gradproj/Screens/family_request.dart';
 import 'package:gradproj/Screens/fammember.dart';
+import 'package:gradproj/Screens/home.dart';
 import 'package:gradproj/Screens/searchnew.dart';
 import 'package:path/path.dart';
 import '../models/members.dart';
@@ -15,13 +16,9 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Screens/friend_requests.dart';
 import 'SetUpProfile1.dart';
-<<<<<<< HEAD
 import 'package:carousel_slider/carousel_slider.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-=======
-import 'home.dart';
->>>>>>> a6c217a6c351f3b3adcd2704f83484a8a6963252
 
 class userprofile extends StatefulWidget {
   final User user;
