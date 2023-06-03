@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path/path.dart' as p;
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,9 +14,13 @@ import 'MoneyRelated.dart';
 class DocumentUploadScreen2 extends StatefulWidget {
   final String uid;
   final User user;
+  final String docname;
 
   const DocumentUploadScreen2(
-      {super.key, required this.uid, required this.user});
+      {super.key,
+      required this.uid,
+      required this.user,
+      required this.docname});
   @override
   _DocumentUploadScreenState createState() => _DocumentUploadScreenState();
 }
@@ -113,16 +118,24 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
     });
     try {
       String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference storageReference =
-          FirebaseStorage.instance.ref().child('documents/$fileName');
-      UploadTask uploadTask = storageReference.putFile(_selectedImage!);
+      final path = 'documents/${p.basename(_selectedImage!.path)}';
+      final ref = FirebaseStorage.instance.ref().child(path);
+
+      // Reference storageReference = FirebaseStorage.instance
+      //     .ref()
+      //     .child('documents/${p.basename(_selectedImage!.path)}');
+
+      UploadTask uploadTask = ref.putFile(_selectedImage!);
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       if (downloadUrl != null) {
-        FirebaseFirestore.instance.collection('documents').add({
-          'downloadUrl': downloadUrl,
-          'expiryDate': _expiryDate,
-          'uploadedAt': DateTime.now(),
+        DocumentReference docRef =
+            FirebaseFirestore.instance.collection('users').doc(widget.uid);
+
+        // Create the "documents" subcollection
+        await docRef.collection('documents').doc(widget.uid).update({
+          widget.docname: path,
+          'expiryDateOf${widget.docname}': _expiryDate,
         }).then((value) => showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -138,6 +151,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
                 ],
               );
             }));
+
         int daysUntilExpiry = _expiryDate!.difference(DateTime.now()).inDays;
         if (daysUntilExpiry <= 10) {
           await _showNotification('Document Expiring Soon',

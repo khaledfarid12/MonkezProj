@@ -15,9 +15,13 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Screens/friend_requests.dart';
 import 'SetUpProfile1.dart';
+<<<<<<< HEAD
 import 'package:carousel_slider/carousel_slider.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+=======
+import 'home.dart';
+>>>>>>> a6c217a6c351f3b3adcd2704f83484a8a6963252
 
 class userprofile extends StatefulWidget {
   final User user;
@@ -79,7 +83,13 @@ class _userprofileState extends State<userprofile> {
                     size: 50,
                   ),
                   tooltip: 'back Icon',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainScreen(
+                                uid: widget.uid, user: widget.user)));
+                  },
                   style: IconButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 0, 0, 0)),
                 ),
@@ -99,8 +109,8 @@ class _userprofileState extends State<userprofile> {
                               backgroundImage: MemoryImage(snapshot.data!),
                               radius: 80,
                             );
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
+                            // } else if (snapshot.hasError) {
+                            //   return Text('${snapshot.error}');
                           } else {
                             return CircularProgressIndicator();
                           }
@@ -242,7 +252,7 @@ class _userprofileState extends State<userprofile> {
                     color: Color.fromARGB(255, 66, 65, 65),
                     size: 50.0,
                   ),
-                  label: Text('MY Documents',
+                  label: Text('My Documents',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,

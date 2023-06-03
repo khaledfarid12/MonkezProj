@@ -290,6 +290,7 @@ class _PhotosState extends State<Photos> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                docname: 'My Photos',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -385,7 +386,10 @@ class _PhotosState extends State<Photos> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                        user: widget.user, uid: widget.uid)));
+                                          user: widget.user,
+                                          uid: widget.uid,
+                                          docname: 'Friends&Family',
+                                        )));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
@@ -394,7 +398,7 @@ class _PhotosState extends State<Photos> {
                           ),
                         ),
                         Text(
-                          'Friends',
+                          'Friends and Family',
                           style: TextStyle(
                             fontSize: 22.0,
                             fontWeight: FontWeight.bold,

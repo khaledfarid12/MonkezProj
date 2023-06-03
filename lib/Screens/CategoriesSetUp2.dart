@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/Constants/Dimensions.dart';
 import 'package:gradproj/Screens/EditProfile.dart';
+import 'package:gradproj/Screens/myPersonalDocs.dart';
 import '../models/User.dart';
 import 'ContactUs.dart';
 import 'Education.dart';
@@ -330,7 +331,7 @@ class _CategoriesSetUp2State extends State<CategoriesSetUp2> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          SetProfile2(uid: widget.uid, user: widget.user)));
+                          MyPersonalDocs(uid: widget.uid, user: widget.user)));
             });
           } else if (category.title == 'Money Related') {
             setState(() {
