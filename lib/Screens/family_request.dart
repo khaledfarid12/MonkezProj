@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,10 @@ class FamilyRequestsScreen extends StatefulWidget {
 }
 
 class _FamilyRequestsScreenState extends State<FamilyRequestsScreen> {
+  late Future<List<DocumentSnapshot>> _future;
+  late PageController _pageController;
+  int _currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -197,7 +202,15 @@ class _FamilyRequestsScreenState extends State<FamilyRequestsScreen> {
                               });
 
                               // Return the row of member widgets
-                              return Row(children: memberWidgets);
+                              return CarouselSlider(
+                                items: memberWidgets,
+                                options: CarouselOptions(
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  aspectRatio: 16 / 9,
+                                  viewportFraction: 0.8,
+                                ),
+                              );
                             } else {
                               return Text('No family members found.');
                             }
