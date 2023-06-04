@@ -15,6 +15,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Screens/friend_requests.dart';
 import 'SetUpProfile1.dart';
 import 'home.dart';
+import 'myPersonalDocs.dart';
 
 class userprofile extends StatefulWidget {
   final User user;
@@ -301,7 +302,7 @@ class _userprofileState extends State<userprofile> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CategoriesSetUp2(
+                          builder: (context) => MyPersonalDocs(
                             user: widget.user,
                             uid: widget.uid,
                           ),

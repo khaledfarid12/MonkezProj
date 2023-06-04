@@ -331,7 +331,7 @@ class _CategoriesSetUp2State extends State<CategoriesSetUp2> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          MyPersonalDocs(uid: widget.uid, user: widget.user)));
+                          SetProfile2(uid: widget.uid, user: widget.user)));
             });
           } else if (category.title == 'Money Related') {
             setState(() {
