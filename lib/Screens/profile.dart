@@ -18,6 +18,8 @@ import '../Screens/friend_requests.dart';
 import 'SetUpProfile1.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import 'Welcome_Page.dart';
+
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class userprofile extends StatefulWidget {
@@ -267,7 +269,10 @@ class _userprofileState extends State<userprofile> {
                       borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => WelcomePage()));
+                  },
                   child: Text('Logout',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
