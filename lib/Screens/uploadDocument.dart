@@ -134,8 +134,8 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
 
         // Create the "documents" subcollection
         await docRef.collection('documents').doc(widget.uid).update({
-          '${widget.docname}path': path,
-          'type': widget.docname,
+          '${widget.docname}Path': path,
+          'docType': widget.docname,
           'expiryDateOf${widget.docname}': _expiryDate,
         }).then((value) => showDialog(
             context: context,
