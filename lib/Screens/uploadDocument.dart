@@ -133,9 +133,10 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
             FirebaseFirestore.instance.collection('users').doc(widget.uid);
 
         // Create the "documents" subcollection
-        await docRef.collection('documents').doc(widget.uid).update({
+        await docRef.collection('documents').doc().set({
           widget.docname: path,
           'expiryDateOf${widget.docname}': _expiryDate,
+          'type': widget.docname
         }).then((value) => showDialog(
             context: context,
             builder: (BuildContext context) {

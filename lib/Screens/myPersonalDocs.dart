@@ -189,7 +189,7 @@ class _MyPersonalDocsState extends State<MyPersonalDocs> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           DocumentUploadScreen2(
-                                              docname: 'Passport',
+                                              docname: 'personaldoc',
                                               user: widget.user,
                                               uid: widget.uid)));
                             },
