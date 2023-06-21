@@ -276,22 +276,59 @@ class _SetProfile2State extends State<SetProfile2> {
                       List<Uint8List> personalDocs = snapshot.data!;
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            for (Uint8List docData in personalDocs)
-                              FullScreenWidget(
-                                disposeLevel: DisposeLevel.Low,
-                                child: Hero(
-                                  tag: "customTag",
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
-                                      child: Image(
-                                        image: MemoryImage(docData),
-                                        width: 200,
-                                        height: 200,
-                                        fit: BoxFit.cover,
-                                      )),
-                                ),
+                        child: Wrap(
+                          spacing: 10.0,
+                          runSpacing: 10.0,
+                          children: <Widget>[
+                            for (int i = 0; i < personalDocs.length; i += 2)
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: AspectRatio(
+                                      aspectRatio: 1,
+                                      child: FullScreenWidget(
+                                        disposeLevel: DisposeLevel.Low,
+                                        child: Hero(
+                                          tag: "customTag$i",
+                                          child: Container(
+                                            margin: EdgeInsets.all(8),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              child: Image.memory(
+                                                personalDocs[i],
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  if (i + 1 < personalDocs.length)
+                                    Flexible(
+                                      child: AspectRatio(
+                                        aspectRatio: 1,
+                                        child: FullScreenWidget(
+                                          disposeLevel: DisposeLevel.Low,
+                                          child: Hero(
+                                            tag: "customTag${i + 1}",
+                                            child: Container(
+                                              margin: EdgeInsets.all(8),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                                child: Image.memory(
+                                                  personalDocs[i + 1],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
                           ],
                         ),
@@ -300,7 +337,7 @@ class _SetProfile2State extends State<SetProfile2> {
                       return SizedBox.shrink();
                     }
                   },
-                )
+                ),
               ],
             ),
 
