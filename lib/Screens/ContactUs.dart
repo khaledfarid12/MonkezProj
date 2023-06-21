@@ -24,6 +24,7 @@ import 'Guidance.dart';
 import 'NearestBuilding.dart';
 import 'ServiceNeeds.dart';
 import 'SetupProfile3.dart';
+import 'family_request.dart';
 
 class ContactUS extends StatefulWidget {
   final String uid;
@@ -136,7 +137,15 @@ class _ContactUSState extends State<ContactUS> {
       appBar: new AppBar(
         backgroundColor: Color(0xFF00CDD0),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FamilyRequestsScreen(
+                    userId: widget.uid, user: widget.user),
+              ),
+            );
+          },
           icon: Icon(
             Icons.notifications,
             color: Colors.white,
@@ -161,7 +170,7 @@ class _ContactUSState extends State<ContactUS> {
             ),
             ListTile(
               title: Text(
-                'Family Community',
+                'My Profile',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -173,12 +182,13 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => userprofile(
-                              uid: widget.uid,
-                              user: widget.user,
-                              getImageData: getImageData,
-                            )));
+                          uid: widget.uid,
+                          user: widget.user,
+                          getImageData: getImageData,
+                        )));
               },
             ),
+
             ListTile(
               title: Text(
                 'Service Needs',
@@ -193,9 +203,9 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ServiceNeeds(
-                              user: widget.user,
-                              uid: widget.uid,
-                            )));
+                          user: widget.user,
+                          uid: widget.uid,
+                        )));
               },
             ),
             ListTile(
@@ -212,9 +222,9 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TravelGuide(
-                              uid: widget.uid,
-                              user: widget.user,
-                            )));
+                          uid: widget.uid,
+                          user: widget.user,
+                        )));
               },
             ),
             ListTile(
@@ -231,9 +241,9 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => NearestBuilding(
-                              user: widget.user,
-                              uid: widget.uid,
-                            )));
+                          user: widget.user,
+                          uid: widget.uid,
+                        )));
               },
             ),
             ListTile(
@@ -250,25 +260,9 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Guidance(
-                              uid: widget.uid,
-                              user: widget.user,
-                            )));
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Edit Profile',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditProfile(uid: widget.uid)));
+                          uid: widget.uid,
+                          user: widget.user,
+                        )));
               },
             ),
             ListTile(

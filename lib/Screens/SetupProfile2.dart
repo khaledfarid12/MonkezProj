@@ -231,7 +231,7 @@ class _SetProfile2State extends State<SetProfile2> {
                     context: context,
                     builder: (BuildContext context) {
                       return WillPopScope(
-                        onWillPop: () async => false,
+                        onWillPop: () async => true,
                         child: AlertDialog(
                           title: Text('Logout'),
                           content: Text('Are you sure you want to log out?'),

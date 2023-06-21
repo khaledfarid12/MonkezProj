@@ -226,7 +226,7 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                     context: context,
                     builder: (BuildContext context) {
                       return WillPopScope(
-                        onWillPop: () async => false,
+                        onWillPop: () async => true,
                         child: AlertDialog(
                           title: Text('Logout'),
                           content: Text('Are you sure you want to log out?'),

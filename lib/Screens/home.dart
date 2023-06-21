@@ -53,14 +53,6 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF00CDD0),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.notifications,
-            color: Colors.white,
-            size: MyDim.fontSizebetween,
-          ),
-        ),
         actions: [
           IconButton(
             onPressed: () {
