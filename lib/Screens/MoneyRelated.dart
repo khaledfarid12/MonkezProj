@@ -334,6 +334,7 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'Bill',
+                                                doctype: 'Visa',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -389,6 +390,7 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'Bill',
+                                                doctype: 'Bank',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -448,6 +450,7 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
                                         docname: 'Bill',
+                                        doctype: 'Money',
                                         user: widget.user,
                                         uid: widget.uid)));
                           },
@@ -497,6 +500,7 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
                                         docname: 'Bill',
+                                        doctype: 'Bills',
                                         user: widget.user,
                                         uid: widget.uid)));
                           },

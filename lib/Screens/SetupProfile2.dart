@@ -339,10 +339,10 @@ class _SetProfile2State extends State<SetProfile2> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
-                                              user: widget.user,
-                                              uid: widget.uid,
-                                              docname: 'personaldocs',
-                                            )));
+                                                user: widget.user,
+                                                uid: widget.uid,
+                                                docname: 'personaldocs',
+                                                doctype: 'nationalid')));
                               },
                               icon: Icon(
                                 Icons.add_circle_outline,
@@ -396,6 +396,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'personaldocs',
+                                                doctype: 'Passport',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -454,10 +455,10 @@ class _SetProfile2State extends State<SetProfile2> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                          user: widget.user,
-                                          uid: widget.uid,
-                                          docname: 'personaldocs',
-                                        )));
+                                        user: widget.user,
+                                        uid: widget.uid,
+                                        docname: 'personaldocs',
+                                        doctype: 'driving')));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
@@ -504,10 +505,10 @@ class _SetProfile2State extends State<SetProfile2> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                          user: widget.user,
-                                          uid: widget.uid,
-                                          docname: 'personaldocs',
-                                        )));
+                                        user: widget.user,
+                                        uid: widget.uid,
+                                        docname: 'personaldocs',
+                                        doctype: 'Birthdate')));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,

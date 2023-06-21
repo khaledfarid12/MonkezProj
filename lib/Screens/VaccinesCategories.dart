@@ -335,6 +335,7 @@ class _VaccinesState extends State<Vaccines> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'vac',
+                                                doctype: 'Covid-19',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -390,6 +391,7 @@ class _VaccinesState extends State<Vaccines> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'vac',
+                                                doctype: 'Newborn',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -451,6 +453,7 @@ class _VaccinesState extends State<Vaccines> {
                                           user: widget.user,
                                           uid: widget.uid,
                                           docname: 'vac',
+                                          doctype: 'Others',
                                         )));
                           },
                           icon: Icon(

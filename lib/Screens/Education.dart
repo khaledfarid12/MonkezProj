@@ -334,6 +334,7 @@ class _EducationState extends State<Education> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                doctype: 'Highschool',
                                                 docname: 'edu',
                                                 user: widget.user,
                                                 uid: widget.uid)));
@@ -386,6 +387,7 @@ class _EducationState extends State<Education> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
+                                                doctype: 'Bachelor',
                                                 docname: 'edu',
                                                 user: widget.user,
                                                 uid: widget.uid)));
@@ -443,10 +445,10 @@ class _EducationState extends State<Education> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                          user: widget.user,
-                                          uid: widget.uid,
-                                          docname: 'edu',
-                                        )));
+                                        user: widget.user,
+                                        uid: widget.uid,
+                                        docname: 'edu',
+                                        doctype: 'courses')));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
@@ -493,10 +495,10 @@ class _EducationState extends State<Education> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                          user: widget.user,
-                                          uid: widget.uid,
-                                          docname: 'edu',
-                                        )));
+                                        user: widget.user,
+                                        uid: widget.uid,
+                                        docname: 'edu',
+                                        doctype: 'onlinecourses')));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,

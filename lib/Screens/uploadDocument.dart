@@ -15,12 +15,15 @@ class DocumentUploadScreen2 extends StatefulWidget {
   final String uid;
   final User user;
   final String docname;
+  final String doctype;
 
-  const DocumentUploadScreen2(
-      {super.key,
-      required this.uid,
-      required this.user,
-      required this.docname});
+  const DocumentUploadScreen2({
+    super.key,
+    required this.uid,
+    required this.user,
+    required this.docname,
+    required this.doctype,
+  });
   @override
   _DocumentUploadScreenState createState() => _DocumentUploadScreenState();
 }
@@ -136,7 +139,8 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
         await docRef.collection('documents').doc().set({
           widget.docname: path,
           'expiryDateOf${widget.docname}': _expiryDate,
-          'type': widget.docname
+          'type': widget.docname,
+          'doctype': widget.doctype,
         }).then((value) => showDialog(
             context: context,
             builder: (BuildContext context) {

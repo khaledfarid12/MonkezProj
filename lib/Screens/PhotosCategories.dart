@@ -332,6 +332,7 @@ class _PhotosState extends State<Photos> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'photo',
+                                                doctype: 'photo',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -427,10 +428,10 @@ class _PhotosState extends State<Photos> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DocumentUploadScreen2(
-                                          user: widget.user,
-                                          uid: widget.uid,
-                                          docname: 'photo',
-                                        )));
+                                        user: widget.user,
+                                        uid: widget.uid,
+                                        docname: 'photo',
+                                        doctype: 'Friends')));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
