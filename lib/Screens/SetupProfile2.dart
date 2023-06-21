@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:full_screen_image/full_screen_image.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,6 +19,8 @@ import 'welcome_page.dart';
 import 'Guidance.dart';
 import 'travelScan.dart';
 import 'uploadDocument.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/src/rendering/box.dart';
 
 class SetProfile2 extends StatefulWidget {
   final User user;
@@ -260,6 +263,47 @@ class _SetProfile2State extends State<SetProfile2> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            new Column(
+              children: <Widget>[
+                FutureBuilder<List<Uint8List>>(
+                  future: getPersonalDocs(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error loading personal documents');
+                    } else if (snapshot.hasData) {
+                      List<Uint8List> personalDocs = snapshot.data!;
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            for (Uint8List docData in personalDocs)
+                              FullScreenWidget(
+                                disposeLevel: DisposeLevel.Low,
+                                child: Hero(
+                                  tag: "customTag",
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Image(
+                                        image: MemoryImage(docData),
+                                        width: 200,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                )
+              ],
+            ),
+
             Padding(
               padding: const EdgeInsets.only(
                   top: MyDim.paddingUnit * 1.5, left: MyDim.paddingUnit * 0.5),
@@ -297,7 +341,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                             DocumentUploadScreen2(
                                               user: widget.user,
                                               uid: widget.uid,
-                                              docname: 'National ID',
+                                              docname: 'personaldocs',
                                             )));
                               },
                               icon: Icon(
@@ -351,7 +395,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
-                                                docname: 'Passport',
+                                                docname: 'personaldocs',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -412,7 +456,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                     builder: (context) => DocumentUploadScreen2(
                                           user: widget.user,
                                           uid: widget.uid,
-                                          docname: 'Driving License',
+                                          docname: 'personaldocs',
                                         )));
                           },
                           icon: Icon(
@@ -462,7 +506,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                     builder: (context) => DocumentUploadScreen2(
                                           user: widget.user,
                                           uid: widget.uid,
-                                          docname: 'BirthCertificate',
+                                          docname: 'personaldocs',
                                         )));
                           },
                           icon: Icon(
@@ -759,5 +803,52 @@ class _SetProfile2State extends State<SetProfile2> {
             ),
           );
         });
+  }
+
+  Future<List<Uint8List>> getPersonalDocs() async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final CollectionReference mySubcollectionRef =
+        firestore.collection('users').doc(widget.uid).collection('documents');
+
+    try {
+      QuerySnapshot querySnapshot = await mySubcollectionRef
+          .where('type', isEqualTo: 'personaldocs')
+          .get();
+
+      List<Uint8List> personalDocWidgets = [];
+
+      // Loop through the documents returned by the query
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        // Retrieve the data for each document
+        Uint8List? imageData = await getdocumentData(doc.id);
+
+        // Add the widget to the list
+        personalDocWidgets.add(imageData!);
+      }
+
+      return personalDocWidgets;
+    } catch (e) {
+      print('Error getting personal docs: $e');
+      return [];
+    }
+  }
+
+  Future<Uint8List?> getdocumentData(docid) async {
+    try {
+      String imagePath = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .collection('documents')
+          .doc(docid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        return documentSnapshot.get('personaldocs') as String;
+      });
+
+      return FirebaseStorage.instance.ref(imagePath).getData();
+    } catch (e) {
+      print('Error getting document data: $e');
+      return null;
+    }
   }
 }

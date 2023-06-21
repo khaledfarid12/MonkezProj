@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'package:gradproj/Constants/buildCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -35,46 +35,6 @@ class _MyPersonalDocsState extends State<MyPersonalDocs> {
   @override
   void initState() {
     super.initState();
-    _getImageUrl();
-  }
-
-  Future<void> _getImageUrl() async {
-    DocumentReference docRef =
-        FirebaseFirestore.instance.collection('users').doc(widget.uid);
-    DocumentSnapshot documentSnapshot =
-        await docRef.collection('documents').doc(widget.uid).get();
-
-    String imagePath = documentSnapshot.get('National ID');
-
-    FirebaseStorage storage = FirebaseStorage.instance;
-    Reference ref = storage.ref().child(imagePath);
-    String downloadUrl = await ref.getDownloadURL();
-
-    setState(() {
-      _downloadUrl = downloadUrl;
-    });
-  }
-
-  Future<Uint8List> getImageData() async {
-    DocumentReference docRef =
-        FirebaseFirestore.instance.collection('users').doc(widget.uid);
-
-    String imagePath = await docRef
-        .collection('documents')
-        .doc(widget.uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      return documentSnapshot.get('National ID') as String;
-    });
-
-    Uint8List? imageData =
-        await FirebaseStorage.instance.ref(imagePath).getData();
-
-    if (imageData != null) {
-      return imageData;
-    } else {
-      throw Exception('Failed to load image');
-    }
   }
 
   @override
@@ -95,125 +55,41 @@ class _MyPersonalDocsState extends State<MyPersonalDocs> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: MyDim.paddingUnit * 1.5, left: MyDim.paddingUnit * 0.5),
-              child: Row(
-                children: <Widget>[
-                  //National ID
-                  Container(
-                    width: MyDim.myWidth(context) * 0.44,
-                    height: MyDim.myHeight(context) * 0.5,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Color(0xFF00CDD0),
-                        width: 2,
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildCard(labelText: 'National ID', uid: widget.uid),
+                buildCard(labelText: 'Passport', uid: widget.uid),
+              ],
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.cyan[400]),
+              width: 180,
+              height: 65,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          CategoriesSetUp2(uid: widget.uid, user: widget.user),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: MyDim.paddingUnit * 1,
-                          left: MyDim.paddingUnit * 0.2),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextFormField(
-                            enabled: false,
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 20),
-                              labelText: 'National ID',
-                              labelStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: FutureBuilder<Uint8List>(
-                              future: getImageData(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Image.memory(snapshot.data!);
-                                }
-                                // else if (snapshot.hasData == false) {
-                                // //   return Image.asset(
-                                // //       'Assets/images/circleAvatar.png');
-                                // }
-                                // else if (snapshot.hasError) {
-                                //   return Text('${snapshot.error}');
-                                // }
-                                else {
-                                  return CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(
-                    width: 30.0,
-                  ),
-
-                  //Passport
-                  Container(
-                    width: MyDim.myWidth(context) * 0.44,
-                    height: MyDim.myHeight(context) * 0.35,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Color(0xFF00CDD0),
-                        width: 2,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        right: MyDim.paddingUnit * 0.4,
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'Assets/images/Passport.png',
-                            width: MyDim.myWidth(context) * 0.3,
-                            height: MyDim.myHeight(context) * 0.2,
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DocumentUploadScreen2(
-                                              docname: 'personaldoc',
-                                              user: widget.user,
-                                              uid: widget.uid)));
-                            },
-                            icon: Icon(
-                              Icons.add_circle_outline,
-                              color: Colors.black,
-                              size: 30.0,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Passport',
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  );
+                },
+                child: Text(
+                  'Upload more',
+                  style: TextStyle(
+                      color: Colors.white, fontSize: MyDim.fontSizeButtons),
+                ),
               ),
+            ),
+            SizedBox(
+              height: 40,
             ),
           ],
         ),
