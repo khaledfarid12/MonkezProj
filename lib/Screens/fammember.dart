@@ -216,10 +216,35 @@ class _famState extends State<fam> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pop(context); // Close the drawer
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomePage()));
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Logout"),
+                        content: Text("Are you sure you want to logout?"),
+                        actions: [
+                          TextButton(
+                            child: Text("no"),
+                            onPressed: () {
+                              // Close the dialog and do nothing
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text("yes"),
+                            onPressed: () {
+                              // Close the dialog and sign the user out
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => WelcomePage()));
+
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
+
               ),
             ],
           ),
