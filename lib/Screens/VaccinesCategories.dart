@@ -17,6 +17,7 @@ import 'welcome_page.dart';
 import 'Guidance.dart';
 import 'travelScan.dart';
 import 'uploadDocument.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 
 class Vaccines extends StatefulWidget {
   final String uid;
@@ -258,6 +259,46 @@ class _VaccinesState extends State<Vaccines> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            new Column(
+              children: <Widget>[
+                FutureBuilder<List<Uint8List>>(
+                  future: getPersonalDocs(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error loading personal documents');
+                    } else if (snapshot.hasData) {
+                      List<Uint8List> personalDocs = snapshot.data!;
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            for (Uint8List docData in personalDocs)
+                              FullScreenWidget(
+                                disposeLevel: DisposeLevel.Low,
+                                child: Hero(
+                                  tag: "customTag",
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Image(
+                                        image: MemoryImage(docData),
+                                        width: 200,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                )
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.only(
                   top: MyDim.paddingUnit * 1.5, left: MyDim.paddingUnit * 0.5),
@@ -293,7 +334,7 @@ class _VaccinesState extends State<Vaccines> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
-                                                docname: 'Covid Vaccine',
+                                                docname: 'vac',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -348,7 +389,7 @@ class _VaccinesState extends State<Vaccines> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
-                                                docname: 'Newborn Vaccines',
+                                                docname: 'vac',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -409,7 +450,7 @@ class _VaccinesState extends State<Vaccines> {
                                     builder: (context) => DocumentUploadScreen2(
                                           user: widget.user,
                                           uid: widget.uid,
-                                          docname: 'Other vaccines',
+                                          docname: 'vac',
                                         )));
                           },
                           icon: Icon(
@@ -702,5 +743,51 @@ class _VaccinesState extends State<Vaccines> {
             ),
           );
         });
+  }
+
+  Future<List<Uint8List>> getPersonalDocs() async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final CollectionReference mySubcollectionRef =
+        firestore.collection('users').doc(widget.uid).collection('documents');
+
+    try {
+      QuerySnapshot querySnapshot =
+          await mySubcollectionRef.where('type', isEqualTo: 'vac').get();
+
+      List<Uint8List> personalDocWidgets = [];
+
+      // Loop through the documents returned by the query
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        // Retrieve the data for each document
+        Uint8List? imageData = await getdocumentData(doc.id);
+
+        // Add the widget to the list
+        personalDocWidgets.add(imageData!);
+      }
+
+      return personalDocWidgets;
+    } catch (e) {
+      print('Error getting personal docs: $e');
+      return [];
+    }
+  }
+
+  Future<Uint8List?> getdocumentData(docid) async {
+    try {
+      String imagePath = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .collection('documents')
+          .doc(docid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        return documentSnapshot.get('vac') as String;
+      });
+
+      return FirebaseStorage.instance.ref(imagePath).getData();
+    } catch (e) {
+      print('Error getting document data: $e');
+      return null;
+    }
   }
 }
