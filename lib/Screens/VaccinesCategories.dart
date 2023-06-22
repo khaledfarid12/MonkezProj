@@ -335,7 +335,7 @@ class _VaccinesState extends State<Vaccines> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'vac',
-                                                doctype: 'Covid-19',
+                                                doctype: 'vaccine',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },

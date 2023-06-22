@@ -342,7 +342,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                                 user: widget.user,
                                                 uid: widget.uid,
                                                 docname: 'personaldocs',
-                                                doctype: 'nationalid')));
+                                                doctype: 'Nationalid')));
                               },
                               icon: Icon(
                                 Icons.add_circle_outline,
@@ -396,7 +396,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'personaldocs',
-                                                doctype: 'Passport',
+                                                doctype: 'passport',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },
@@ -458,7 +458,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                         user: widget.user,
                                         uid: widget.uid,
                                         docname: 'personaldocs',
-                                        doctype: 'driving')));
+                                        doctype: 'driverLisence')));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,
@@ -508,7 +508,7 @@ class _SetProfile2State extends State<SetProfile2> {
                                         user: widget.user,
                                         uid: widget.uid,
                                         docname: 'personaldocs',
-                                        doctype: 'Birthdate')));
+                                        doctype: 'birthCirt')));
                           },
                           icon: Icon(
                             Icons.add_circle_outline,

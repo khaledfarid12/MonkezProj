@@ -334,7 +334,7 @@ class _EducationState extends State<Education> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DocumentUploadScreen2(
-                                                doctype: 'Highschool',
+                                                doctype: 'HSCirt',
                                                 docname: 'edu',
                                                 user: widget.user,
                                                 uid: widget.uid)));

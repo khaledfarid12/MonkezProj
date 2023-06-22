@@ -334,7 +334,7 @@ class _MoneyRelatedState extends State<MoneyRelated> {
                                         builder: (context) =>
                                             DocumentUploadScreen2(
                                                 docname: 'Bill',
-                                                doctype: 'Visa',
+                                                doctype: 'visa',
                                                 user: widget.user,
                                                 uid: widget.uid)));
                               },

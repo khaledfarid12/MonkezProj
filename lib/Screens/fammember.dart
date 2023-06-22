@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/Screens/UserService.dart';
+import 'package:gradproj/Screens/accessedDocs.dart';
 import '../Constants/Dimensions.dart';
 import '../models/User.dart';
 import '../screens/ContactUS.dart';
@@ -325,7 +326,18 @@ class _famState extends State<fam> {
                         borderRadius: BorderRadius.circular(12),
                       ) //<-- SEE HERE
                       ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      this.context,
+                      MaterialPageRoute(
+                        builder: (context) => accessedDocs(
+                          userId: widget.uid,
+                          user: widget.user,
+                          fammember: widget.membername,
+                        ),
+                      ),
+                    );
+                  },
                   icon: Icon(
                     // <-- Icon
                     Icons.folder,
@@ -364,7 +376,7 @@ class _famState extends State<fam> {
                               onChanged: (bool? value) {
                                 // print('Before update: Nationalid = ${Nationalid}');
                                 setState(() {
-                                  Nationalid = value;
+                                  Nationalid = value!;
                                 });
                                 // print('After update: Nationalid = ${Nationalid}');
                               },
@@ -395,7 +407,7 @@ class _famState extends State<fam> {
                                   .leading, //checkbox at left
                               onChanged: (bool? value) {
                                 setState(() {
-                                  birthCirt = value;
+                                  birthCirt = value!;
                                 });
                               },
                               title: Text(
@@ -410,7 +422,7 @@ class _famState extends State<fam> {
                                   .leading, //checkbox at left
                               onChanged: (bool? value) {
                                 setState(() {
-                                  HSCirt = value;
+                                  HSCirt = value!;
                                 });
                               },
                               title: Text(
@@ -425,7 +437,7 @@ class _famState extends State<fam> {
                                   .leading, //checkbox at left
                               onChanged: (bool? value) {
                                 setState(() {
-                                  passport = value;
+                                  passport = value!;
                                 });
                               },
                               title: Text(
@@ -440,7 +452,7 @@ class _famState extends State<fam> {
                                   .leading, //checkbox at left
                               onChanged: (bool? value) {
                                 setState(() {
-                                  visa = value;
+                                  visa = value!;
                                 });
                               },
                               title: Text(
@@ -455,7 +467,7 @@ class _famState extends State<fam> {
                                   .leading, //checkbox at left
                               onChanged: (bool? value) {
                                 setState(() {
-                                  vaccine = value;
+                                  vaccine = value!;
                                 });
                               },
                               title: Text(
@@ -471,7 +483,10 @@ class _famState extends State<fam> {
                       showCloseIcon: true,
                       title: "Select documents ",
                       desc: 'Choose documents you want to access',
-                      btnOkOnPress: () {},
+                      btnOkOnPress: () {
+                        createDocumentAccessSubcollection(Nationalid, vaccine,
+                            visa, passport, HSCirt, birthCirt, driverLisence);
+                      },
                       btnCancelOnPress: () {},
                     ).show();
                   },
@@ -725,5 +740,136 @@ class _famState extends State<fam> {
     }
 
     return Column(children: familyWidgets);
+  }
+
+  Future<void> createDocumentAccessSubcollection(Nationalid, vaccine, visa,
+      passport, HSCirt, birthCirt, driverLisence) async {
+    // Check if the username is already taken
+
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('users').doc(widget.uid);
+
+    if (Nationalid) {
+      docRef.collection('docAccess').doc().set({
+        'docname': 'nationalid',
+        'docowner': widget.membername,
+        'status': 'pending',
+        'sender': widget.uid
+      });
+      _senddocumentRequest('nationalid');
+    }
+    if (vaccine) {
+      docRef.collection('docAccess').doc().set({
+        'docname': 'vaccine',
+        'docowner': widget.membername,
+        'status': 'pending',
+        'sender': widget.uid
+      });
+      _senddocumentRequest('vaccine');
+    }
+    if (visa) {
+      docRef.collection('docAccess').doc().set({
+        'docname': 'visa',
+        'docowner': widget.membername,
+        'status': 'pending',
+        'sender': widget.uid
+      });
+      _senddocumentRequest('visa');
+    }
+    if (passport) {
+      docRef.collection('docAccess').doc().set({
+        'docname': 'passport',
+        'docowner': widget.membername,
+        'status': 'pending',
+        'sender': widget.uid
+      });
+      _senddocumentRequest('passport');
+    }
+    if (HSCirt) {
+      docRef.collection('docAccess').doc().set({
+        'docname': 'HSCirt',
+        'docowner': widget.membername,
+        'status': 'pending',
+        'sender': widget.uid
+      });
+      _senddocumentRequest('HSCirt');
+    }
+
+    if (birthCirt) {
+      docRef.collection('docAccess').doc().set({
+        'docname': 'birthCirt',
+        'docowner': widget.membername,
+        'status': 'pending',
+        'sender': widget.uid
+      });
+      _senddocumentRequest('birthCirt');
+    }
+    if (driverLisence) {
+      docRef.collection('docAccess').doc().set({
+        'docname': 'driverLisence',
+        'docowner': widget.membername,
+        'status': 'pending',
+        'sender': widget.uid
+      });
+      _senddocumentRequest('driverLisence');
+    }
+
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => AddFamilyMember(
+    //             uid: widget.uid,
+    //             senderuser: widget.senderuser,
+    //             familyname: familyname)));
+  }
+
+  void _senddocumentRequest(docname) async {
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .where('username', isEqualTo: widget.membername.toString())
+            .limit(1)
+            .get();
+
+    String userId = querySnapshot.docs.first.id;
+    // Get the current user's ID
+    final currentUserId = widget.uid;
+
+    // Check if the current user has already sent a friend request to this user
+    final documentRequestsRef = _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('documentsRequests')
+        .doc();
+    final documentRequestsSnapshot = await documentRequestsRef.get();
+    if (documentRequestsSnapshot.exists) {
+      final status = documentRequestsSnapshot['status'];
+      final friendUserId = documentRequestsSnapshot['sender'];
+      if (status == 'pending' && friendUserId == currentUserId) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('document request already sent.'),
+          ),
+        );
+        return;
+      }
+    }
+
+    // Add a new document to the "friendRequests" subcollection with the friend's user ID and a status of "pending"
+    await documentRequestsRef.set({
+      'sender': currentUserId,
+      'status': 'pending',
+      'senderName': widget.user.username,
+      'senderEmail': widget.user.email,
+      'senderAvatar': widget.user.imagePath,
+      'documentname': docname
+    });
+
+    // Show a snackbar to confirm the friend request was sent
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Document request sent.'),
+      ),
+    );
   }
 }
