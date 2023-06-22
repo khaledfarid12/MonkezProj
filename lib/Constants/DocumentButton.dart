@@ -43,6 +43,13 @@ class DocumentButton extends StatelessWidget {
               ),
             ],
           ),
+          style: ElevatedButton.styleFrom(
+            side: BorderSide(
+              width: 3.0,
+              color: Color(0xFF00CDD0),
+            ),
+            primary: Colors.white,
+          ),
           onPressed: clickdoc,
         ),
       ),

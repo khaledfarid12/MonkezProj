@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:gradproj/models/User.dart";
+import 'package:image/image.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -110,6 +111,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.cyan,
           title: TextField(
             onChanged: _onSearchChanged,
             onSubmitted: _onSearchSubmitted,

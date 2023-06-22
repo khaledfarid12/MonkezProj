@@ -8,6 +8,7 @@ import '../models/User.dart';
 import 'ContactUs.dart';
 import 'NearestBuilding.dart';
 import 'SetupProfile3.dart';
+import 'family_request.dart';
 import 'profile.dart';
 import 'welcome_page.dart';
 import 'Guidance.dart';
@@ -57,7 +58,15 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
       appBar: new AppBar(
         backgroundColor: Color(0xFF00CDD0),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    FamilyRequestsScreen(userId: widget.uid, user: widget.user),
+              ),
+            );
+          },
           icon: Icon(
             Icons.notifications,
             color: Colors.white,
@@ -82,7 +91,7 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
             ),
             ListTile(
               title: Text(
-                'Family Community',
+                'My Profile',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -94,8 +103,8 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => userprofile(
-                              user: widget.user,
                               uid: widget.uid,
+                              user: widget.user,
                               getImageData: getImageData,
                             )));
               },
@@ -132,8 +141,10 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            ContactUS(uid: widget.uid, user: widget.user)));
+                        builder: (context) => ContactUS(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
@@ -150,7 +161,9 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => NearestBuilding(
-                            user: widget.user, uid: widget.uid)));
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
               },
             ),
             ListTile(
@@ -166,65 +179,51 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            Guidance(user: widget.user, uid: widget.uid)));
+                        builder: (context) => Guidance(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
               title: Text(
-                'Edit Profile',
+                'Logout',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditProfile(uid: widget.uid)));
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Logout"),
+                      content: Text("Are you sure you want to logout?"),
+                      actions: [
+                        TextButton(
+                          child: Text("no"),
+                          onPressed: () {
+                            // Close the dialog and do nothing
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text("yes"),
+                          onPressed: () {
+                            // Close the dialog and sign the user out
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WelcomePage()));
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
-            ListTile(
-                title: Text(
-                  'Logout',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return WillPopScope(
-                        onWillPop: () async => false,
-                        child: AlertDialog(
-                          title: Text('Logout'),
-                          content: Text('Are you sure you want to log out?'),
-                          actions: [
-                            TextButton(
-                              child: Text('No'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: Text('Yes'),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => WelcomePage()));
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                })
           ],
         ),
       ),

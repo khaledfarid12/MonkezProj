@@ -18,8 +18,8 @@ import '../Constants/Dimensions.dart';
 
 class MainScreen extends StatefulWidget {
   final String uid;
-  final User user;
-  const MainScreen({Key? key, required this.uid, required this.user})
+  final User userr;
+  const MainScreen({Key? key, required this.uid, required this.userr})
       : super(key: key);
 
   @override
@@ -53,14 +53,6 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF00CDD0),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.notifications,
-            color: Colors.white,
-            size: MyDim.fontSizebetween,
-          ),
-        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -69,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => userprofile(
-                      user: widget.user,
+                      user: widget.userr,
                       uid: widget.uid,
                       getImageData: getImageData,
                     ),
@@ -120,7 +112,7 @@ class _MainScreenState extends State<MainScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => userprofile(
-                                    user: widget.user,
+                                    user: widget.userr,
                                     uid: widget.uid,
                                     getImageData: getImageData,
                                   ),
@@ -169,7 +161,8 @@ class _MainScreenState extends State<MainScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => Guidance(
-                                          user: widget.user, uid: widget.uid)));
+                                          user: widget.userr,
+                                          uid: widget.uid)));
                             });
                           },
                           child: Container(
@@ -215,7 +208,8 @@ class _MainScreenState extends State<MainScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ContactUS(
-                                          uid: widget.uid, user: widget.user)));
+                                          uid: widget.uid,
+                                          user: widget.userr)));
                             });
                           },
                           child: Container(
@@ -266,7 +260,8 @@ class _MainScreenState extends State<MainScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ServiceNeeds(
-                                          user: widget.user, uid: widget.uid)));
+                                          user: widget.userr,
+                                          uid: widget.uid)));
                             });
                           },
                           child: Container(
@@ -312,7 +307,8 @@ class _MainScreenState extends State<MainScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => TravelGuide(
-                                          user: widget.user, uid: widget.uid)));
+                                          user: widget.userr,
+                                          uid: widget.uid)));
                             });
                           },
                           child: Container(
@@ -358,7 +354,8 @@ class _MainScreenState extends State<MainScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => NearestBuilding(
-                                          user: widget.user, uid: widget.uid)));
+                                          user: widget.userr,
+                                          uid: widget.uid)));
                             });
                           },
                           child: Container(

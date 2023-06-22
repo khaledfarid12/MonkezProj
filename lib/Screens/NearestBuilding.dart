@@ -10,6 +10,7 @@ import '../models/User.dart';
 import 'ServiceNeeds.dart';
 import 'SetupProfile3.dart';
 import 'package:gradproj/Screens/profile.dart';
+import 'family_request.dart';
 import 'welcome_page.dart';
 import 'Guidance.dart';
 import 'home.dart';
@@ -61,7 +62,15 @@ class _NearestBuildingState extends State<NearestBuilding> {
       appBar: new AppBar(
         backgroundColor: Color(0xFF00CDD0),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    FamilyRequestsScreen(userId: widget.uid, user: widget.user),
+              ),
+            );
+          },
           icon: Icon(
             Icons.notifications,
             color: Colors.white,
@@ -86,7 +95,7 @@ class _NearestBuildingState extends State<NearestBuilding> {
             ),
             ListTile(
               title: Text(
-                'Family Community',
+                'My Profile',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -98,8 +107,8 @@ class _NearestBuildingState extends State<NearestBuilding> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => userprofile(
-                              user: widget.user,
                               uid: widget.uid,
+                              user: widget.user,
                               getImageData: getImageData,
                             )));
               },
@@ -117,8 +126,10 @@ class _NearestBuildingState extends State<NearestBuilding> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            ServiceNeeds(user: widget.user, uid: widget.uid)));
+                        builder: (context) => ServiceNeeds(
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
               },
             ),
             ListTile(
@@ -134,8 +145,10 @@ class _NearestBuildingState extends State<NearestBuilding> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            TravelGuide(user: widget.user, uid: widget.uid)));
+                        builder: (context) => TravelGuide(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
@@ -151,8 +164,10 @@ class _NearestBuildingState extends State<NearestBuilding> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            ContactUS(uid: widget.uid, user: widget.user)));
+                        builder: (context) => ContactUS(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
@@ -168,13 +183,15 @@ class _NearestBuildingState extends State<NearestBuilding> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            Guidance(user: widget.user, uid: widget.uid)));
+                        builder: (context) => Guidance(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
               title: Text(
-                'Edit Profile',
+                'Logout',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -182,51 +199,10 @@ class _NearestBuildingState extends State<NearestBuilding> {
               ),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditProfile(uid: widget.uid)));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WelcomePage()));
               },
             ),
-            ListTile(
-                title: Text(
-                  'Logout',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return WillPopScope(
-                        onWillPop: () async => false,
-                        child: AlertDialog(
-                          title: Text('Logout'),
-                          content: Text('Are you sure you want to log out?'),
-                          actions: [
-                            TextButton(
-                              child: Text('No'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: Text('Yes'),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => WelcomePage()));
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                })
           ],
         ),
       ),

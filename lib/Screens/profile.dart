@@ -7,7 +7,9 @@ import 'package:gradproj/Screens/family_request.dart';
 import 'package:gradproj/Screens/fammember.dart';
 import 'package:gradproj/Screens/home.dart';
 import 'package:gradproj/Screens/searchnew.dart';
+import 'package:gradproj/Screens/travelScan.dart';
 import 'package:path/path.dart';
+import '../Constants/Dimensions.dart';
 import '../models/members.dart';
 import '../models/User.dart';
 import '../Screens/SetupProfile3.dart';
@@ -15,6 +17,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Screens/friend_requests.dart';
+import 'ContactUS.dart';
+import 'Guidance.dart';
+import 'NearestBuilding.dart';
+import 'ServiceNeeds.dart';
 import 'SetUpProfile1.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -40,58 +46,187 @@ class userprofile extends StatefulWidget {
 }
 
 class _userprofileState extends State<userprofile> {
+
   @override
   Widget build(BuildContext context) {
     final storage = FirebaseStorage.instance;
     final ref = FirebaseStorage.instance.ref().child(widget.user.imagePath);
     final url = ref.getDownloadURL();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.menu),
-              tooltip: 'Menu Icon',
-              onPressed: () {},
+        drawer: new Drawer(),
+        appBar: new AppBar(
+          backgroundColor: Color(0xFF00CDD0),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FamilyRequestsScreen(
+                        userId: widget.uid, user: widget.user),
+                  ),
+                );
+              },
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+              size: MyDim.fontSizebetween,
             ),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.settings),
-                tooltip: 'Comment Icon',
-                onPressed: () {
+          ),
+        ),
+        endDrawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: Image(
+                  image: ResizeImage(AssetImage('Assets/images/blackLogo.png'),
+                      width: 1000, height: 800),
+                ),
+                // child: Text('Monkez',style: TextStyle(fontSize: MyDim.fontSizebetween, fontWeight: FontWeight.w700),),
+                decoration: BoxDecoration(
+                  // image: 'Assets/images/logoblack.png',
+                  color: Colors.black,
+                ),
+              ),
+
+              ListTile(
+                title: Text(
+                  'Service Needs',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FamilyRequestsScreen(
-                          userId: widget.uid, user: widget.user),
-                    ),
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ServiceNeeds(
+                            user: widget.user,
+                            uid: widget.uid,
+                          )));
                 },
               ),
+              ListTile(
+                title: Text(
+                  'Travel Guide',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TravelGuide(
+                            uid: widget.uid,
+                            user: widget.user,
+                          )));
+                },
+              ),
+              ListTile(
+                title: Text('Contact Us' , style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUS(
+                    uid: widget.uid,
+                    user: widget.user,
+                  )));
+                }, ),
+              ListTile(
+                title: Text(
+                  'Nearest Building',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NearestBuilding(
+                            user: widget.user,
+                            uid: widget.uid,
+                          )));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Guidance',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Guidance(
+                            uid: widget.uid,
+                            user: widget.user,
+                          )));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Logout"),
+                        content: Text("Are you sure you want to logout?"),
+                        actions: [
+                          TextButton(
+                            child: Text("no"),
+                            onPressed: () {
+                              // Close the dialog and do nothing
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text("yes"),
+                            onPressed: () {
+                              // Close the dialog and sign the user out
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => WelcomePage()));
+
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+
+              ),
             ],
-            backgroundColor: Color.fromARGB(255, 0, 205, 208)),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               new Container(
                 margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_circle_left_rounded,
-                    color: Color.fromARGB(255, 0, 205, 208),
-                    size: 50,
-                  ),
-                  tooltip: 'back Icon',
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MainScreen(
-                                uid: widget.uid, user: widget.user)));
-                  },
-                  style: IconButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 0, 0, 0)),
-                ),
+
               ),
               Row(
                 children: <Widget>[

@@ -30,26 +30,23 @@ class _FamilyRequestsScreenState extends State<FamilyRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Requests'),
-        ),
-        body: SingleChildScrollView(
-            physics: ScrollPhysics(),
-            child: Column(children: <Widget>[
-              StreamBuilder<QuerySnapshot>(
-                stream: _firestore
-                    .collection('users')
-                    .doc(widget.userId)
-                    .collection('familyRequests')
-                    .where('status', isEqualTo: 'pending')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  List<DocumentSnapshot> documents = snapshot.data!.docs;
+      appBar: AppBar(
+        title: Text('Family member request Requests'),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _firestore
+            .collection('users')
+            .doc(widget.userId)
+            .collection('familyRequests')
+            .where('status', isEqualTo: 'pending')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          List<DocumentSnapshot> documents = snapshot.data!.docs;
 
                   return ListView.builder(
                     shrinkWrap: true,
