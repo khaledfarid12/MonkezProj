@@ -11,13 +11,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../models/User.dart';
 import 'MoneyRelated.dart';
 
-class DocumentUploadScreen2 extends StatefulWidget {
+class DocumentUploadScreen_2 extends StatefulWidget {
   final String uid;
   final User user;
   final String docname;
   final String doctype;
 
-  const DocumentUploadScreen2({
+  const DocumentUploadScreen_2({
     super.key,
     required this.uid,
     required this.user,
@@ -28,7 +28,7 @@ class DocumentUploadScreen2 extends StatefulWidget {
   _DocumentUploadScreenState createState() => _DocumentUploadScreenState();
 }
 
-class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
+class _DocumentUploadScreenState extends State<DocumentUploadScreen_2> {
   final picker = ImagePicker();
 
   File? _selectedImage;
@@ -45,7 +45,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
 
   Future<void> _initFlutterLocalNotifications() async {
     var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings('@mipmap/ic_launcher');
 
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -111,13 +111,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
           SnackBar(content: Text('Please select an image to upload.')));
       return;
     }
-    if (_expiryDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please select an expiry date.')));
-    }
-    else {
 
-    }
     setState(() {
       _isUploading = true;
     });
@@ -135,7 +129,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       if (downloadUrl != null) {
         DocumentReference docRef =
-            FirebaseFirestore.instance.collection('users').doc(widget.uid);
+        FirebaseFirestore.instance.collection('users').doc(widget.uid);
 
         // Create the "documents" subcollection
         await docRef.collection('documents').doc().set({
@@ -165,11 +159,6 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
               'The document will expire in $daysUntilExpiry days. Please renew it before it expires to avoid late fine.');
         }
       }
-    } catch (error) {
-      print('Error uploading document: $error');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-              'An error occurred while uploading the document. Please try again later.')));
     } finally {
       setState(() {
         _isUploading = false;
@@ -231,7 +220,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
                   child: _selectedImage == null
                       ? Text('No image selected !')
                       : Container(
-                    width: 400,
+                      width: 400,
                       height:300,
                       child: Image.file(_selectedImage!)),
                 ),
@@ -249,7 +238,7 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
                         onPressed: _getImageFromCamera,
                         child: Text('Take Photo',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 15)),
+                            TextStyle(color: Colors.white, fontSize: 15)),
                       ),
                     ),
                     SizedBox(width: 18),
@@ -263,36 +252,14 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
                         onPressed: _getImageFromGallery,
                         child: Text('Choose from Gallery',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 13)),
+                            TextStyle(color: Colors.white, fontSize: 13)),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 60),
-                ListTile(
-                  leading: Icon(Icons.calendar_today),
-                  title: Text('Expiry Date'),
-                  subtitle: _expiryDate == null
-                      ? Text('Please select an expiry date.')
-                      : Text(DateFormat('yyyy-MM-dd').format(_expiryDate!)),
-                  trailing: IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: _expiryDate == null
-                        ? null
-                        : () {
-                            _showExpiryDateChangeDialog();
-                          },
-                  ),
-                  onTap: () {
-                    if (_expiryDate != null) {
-                      if (_expiryDate!.isBefore(DateTime.now())) {
-                        _showExpiryDateErrorMessage();
-                      }
-                    }
-                    _selectExpiryDate(context);
-                  },
-                ),
-                SizedBox(height: 80),
+
+
+                SizedBox(height: 70),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
@@ -304,10 +271,10 @@ class _DocumentUploadScreenState extends State<DocumentUploadScreen2> {
                     child: _isUploading
                         ? CircularProgressIndicator()
                         : Text(
-                            'Upload Document',
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 18.0),
-                          ),
+                      'Upload Document',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 18.0),
+                    ),
                   ),
                 ),
                 SizedBox(

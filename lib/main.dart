@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: SplashScreen(),
-      // theme: ThemeData(fontFamily: 'flu', primarySwatch: Colors.cyan),
+       theme: ThemeData(fontFamily: 'flu', primarySwatch: Colors.cyan),
     );
   }
 }

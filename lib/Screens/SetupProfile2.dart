@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/Screens/EditProfile.dart';
+import 'package:gradproj/Screens/uploadDocument_2.dart';
 import 'package:intl/intl.dart';
 import '../models/User.dart';
 import 'CategoriesSetUp2.dart';
@@ -504,7 +505,7 @@ class _SetProfile2State extends State<SetProfile2> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => DocumentUploadScreen2(
+                                    builder: (context) => DocumentUploadScreen_2(
                                         user: widget.user,
                                         uid: widget.uid,
                                         docname: 'personaldocs',
