@@ -46,7 +46,6 @@ class userprofile extends StatefulWidget {
 }
 
 class _userprofileState extends State<userprofile> {
-
   @override
   Widget build(BuildContext context) {
     final storage = FirebaseStorage.instance;
@@ -59,15 +58,15 @@ class _userprofileState extends State<userprofile> {
         appBar: new AppBar(
           backgroundColor: Color(0xFF00CDD0),
           leading: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FamilyRequestsScreen(
-                        userId: widget.uid, user: widget.user),
-                  ),
-                );
-              },
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FamilyRequestsScreen(
+                      userId: widget.uid, user: widget.user),
+                ),
+              );
+            },
             icon: Icon(
               Icons.notifications,
               color: Colors.white,
@@ -90,7 +89,6 @@ class _userprofileState extends State<userprofile> {
                   color: Colors.black,
                 ),
               ),
-
               ListTile(
                 title: Text(
                   'Service Needs',
@@ -105,9 +103,9 @@ class _userprofileState extends State<userprofile> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ServiceNeeds(
-                            user: widget.user,
-                            uid: widget.uid,
-                          )));
+                                user: widget.user,
+                                uid: widget.uid,
+                              )));
                 },
               ),
               ListTile(
@@ -124,23 +122,30 @@ class _userprofileState extends State<userprofile> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => TravelGuide(
-                            uid: widget.uid,
-                            user: widget.user,
-                          )));
+                                uid: widget.uid,
+                                user: widget.user,
+                              )));
                 },
               ),
               ListTile(
-                title: Text('Contact Us' , style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),),
+                title: Text(
+                  'Contact Us',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 onTap: () {
                   Navigator.pop(context); // Close the drawer
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUS(
-                    uid: widget.uid,
-                    user: widget.user,
-                  )));
-                }, ),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ContactUS(
+                                uid: widget.uid,
+                                user: widget.user,
+                              )));
+                },
+              ),
               ListTile(
                 title: Text(
                   'Nearest Building',
@@ -155,9 +160,9 @@ class _userprofileState extends State<userprofile> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => NearestBuilding(
-                            user: widget.user,
-                            uid: widget.uid,
-                          )));
+                                user: widget.user,
+                                uid: widget.uid,
+                              )));
                 },
               ),
               ListTile(
@@ -174,9 +179,9 @@ class _userprofileState extends State<userprofile> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => Guidance(
-                            uid: widget.uid,
-                            user: widget.user,
-                          )));
+                                uid: widget.uid,
+                                user: widget.user,
+                              )));
                 },
               ),
               ListTile(
@@ -206,9 +211,10 @@ class _userprofileState extends State<userprofile> {
                             child: Text("yes"),
                             onPressed: () {
                               // Close the dialog and sign the user out
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => WelcomePage()));
-
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WelcomePage()));
                             },
                           ),
                         ],
@@ -216,7 +222,6 @@ class _userprofileState extends State<userprofile> {
                     },
                   );
                 },
-
               ),
             ],
           ),
@@ -226,7 +231,6 @@ class _userprofileState extends State<userprofile> {
             children: <Widget>[
               new Container(
                 margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-
               ),
               Row(
                 children: <Widget>[
@@ -310,7 +314,8 @@ class _userprofileState extends State<userprofile> {
                       return CircularProgressIndicator();
                     } else {
                       if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
+                        return Text(
+                            'No family community found: ${snapshot.error}');
                       } else {
                         return snapshot.data!;
                       }
@@ -617,6 +622,7 @@ class _userprofileState extends State<userprofile> {
         return documents;
       } else {
         // subcollection is empty
+        print('No family community found');
         return [];
       }
     } catch (e) {
@@ -662,7 +668,8 @@ class _userprofileState extends State<userprofile> {
                             fit: BoxFit.cover,
                           );
                         } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
+                          return Text(
+                              ' No family community found ${snapshot.error}');
                         } else {
                           return CircularProgressIndicator();
                         }

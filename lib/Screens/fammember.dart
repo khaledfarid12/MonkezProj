@@ -235,9 +235,10 @@ class _famState extends State<fam> {
                             child: Text("yes"),
                             onPressed: () {
                               // Close the dialog and sign the user out
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => WelcomePage()));
-
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WelcomePage()));
                             },
                           ),
                         ],
@@ -245,7 +246,6 @@ class _famState extends State<fam> {
                     },
                   );
                 },
-
               ),
             ],
           ),
@@ -330,7 +330,7 @@ class _famState extends State<fam> {
                       return CircularProgressIndicator();
                     } else {
                       if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
+                        return Text('No family community found ');
                       } else {
                         return snapshot.data!;
                       }
