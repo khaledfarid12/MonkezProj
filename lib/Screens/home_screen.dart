@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gradproj/models/User.dart' as userR;
 
 import 'Login.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final userR.User user;
+  const HomeScreen({super.key, required this.user});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

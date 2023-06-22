@@ -14,6 +14,7 @@ import 'NearestBuilding.dart';
 import 'ServiceNeeds.dart';
 import 'SetupProfile3.dart';
 import 'SignUp.dart';
+import 'family_request.dart';
 import 'profile.dart';
 import 'welcome_page.dart';
 import 'Guidance.dart';
@@ -62,21 +63,27 @@ class _SetProfile2State extends State<SetProfile2> {
     return Scaffold(
       drawer: new Drawer(),
       appBar: new AppBar(
+        title: Center(
+          child: Text(
+            'Personal Identification',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
         backgroundColor: Color(0xFF00CDD0),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    FamilyRequestsScreen(userId: widget.uid, user: widget.user),
+              ),
+            );
+          },
           icon: Icon(
             Icons.notifications,
             color: Colors.white,
             size: MyDim.fontSizebetween,
-          ),
-        ),
-        title: Center(
-          child: Text(
-            'Personal Identification',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
           ),
         ),
       ),
@@ -97,7 +104,7 @@ class _SetProfile2State extends State<SetProfile2> {
             ),
             ListTile(
               title: Text(
-                'Family Community',
+                'My Profile',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -128,8 +135,10 @@ class _SetProfile2State extends State<SetProfile2> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            ServiceNeeds(user: widget.user, uid: widget.uid)));
+                        builder: (context) => ServiceNeeds(
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
               },
             ),
             ListTile(
@@ -164,8 +173,10 @@ class _SetProfile2State extends State<SetProfile2> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            ContactUS(uid: widget.uid, user: widget.user)));
+                        builder: (context) => ContactUS(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
@@ -182,7 +193,9 @@ class _SetProfile2State extends State<SetProfile2> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => NearestBuilding(
-                            user: widget.user, uid: widget.uid)));
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
               },
             ),
             ListTile(
@@ -198,65 +211,51 @@ class _SetProfile2State extends State<SetProfile2> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            Guidance(user: widget.user, uid: widget.uid)));
+                        builder: (context) => Guidance(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
               title: Text(
-                'Edit Profile',
+                'Logout',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditProfile(uid: widget.uid)));
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Logout"),
+                      content: Text("Are you sure you want to logout?"),
+                      actions: [
+                        TextButton(
+                          child: Text("no"),
+                          onPressed: () {
+                            // Close the dialog and do nothing
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text("yes"),
+                          onPressed: () {
+                            // Close the dialog and sign the user out
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WelcomePage()));
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
-            ListTile(
-                title: Text(
-                  'Logout',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return WillPopScope(
-                        onWillPop: () async => true,
-                        child: AlertDialog(
-                          title: Text('Logout'),
-                          content: Text('Are you sure you want to log out?'),
-                          actions: [
-                            TextButton(
-                              child: Text('No'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: Text('Yes'),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => WelcomePage()));
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                })
           ],
         ),
       ),
@@ -277,7 +276,7 @@ class _SetProfile2State extends State<SetProfile2> {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Wrap(
-                          spacing: 10.0,
+                          spacing: 8.0,
                           runSpacing: 10.0,
                           children: <Widget>[
                             for (int i = 0; i < personalDocs.length; i += 2)

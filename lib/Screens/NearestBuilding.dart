@@ -66,8 +66,8 @@ class _NearestBuildingState extends State<NearestBuilding> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FamilyRequestsScreen(
-                    userId: widget.uid, user: widget.user),
+                builder: (context) =>
+                    FamilyRequestsScreen(userId: widget.uid, user: widget.user),
               ),
             );
           },
@@ -107,13 +107,12 @@ class _NearestBuildingState extends State<NearestBuilding> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => userprofile(
-                          uid: widget.uid,
-                          user: widget.user,
-                          getImageData: getImageData,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                              getImageData: getImageData,
+                            )));
               },
             ),
-
             ListTile(
               title: Text(
                 'Service Needs',
@@ -128,9 +127,9 @@ class _NearestBuildingState extends State<NearestBuilding> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ServiceNeeds(
-                          user: widget.user,
-                          uid: widget.uid,
-                        )));
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
               },
             ),
             ListTile(
@@ -147,23 +146,30 @@ class _NearestBuildingState extends State<NearestBuilding> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TravelGuide(
-                          uid: widget.uid,
-                          user: widget.user,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
-              title: Text('Contact Us' , style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),),
+              title: Text(
+                'Contact Us',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUS(
-                  uid: widget.uid,
-                  user: widget.user,
-                )));
-              }, ),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ContactUS(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
+              },
+            ),
             ListTile(
               title: Text(
                 'Guidance',
@@ -178,9 +184,9 @@ class _NearestBuildingState extends State<NearestBuilding> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Guidance(
-                          uid: widget.uid,
-                          user: widget.user,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(

@@ -111,7 +111,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.cyanAccent,
+          backgroundColor: Colors.cyan,
           title: TextField(
             onChanged: _onSearchChanged,
             onSubmitted: _onSearchSubmitted,

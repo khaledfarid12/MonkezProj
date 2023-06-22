@@ -29,7 +29,8 @@ class _FamilyRequestsScreenState extends State<FamilyRequestsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Family member request Requests'),
+        backgroundColor: Color(0xFF00CDD0),
+        title: Text('Family member requests'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore

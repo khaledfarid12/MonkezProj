@@ -4,6 +4,7 @@ import 'Login.dart';
 import 'SetUpProfile1.dart';
 import 'SetupProfile3.dart';
 import 'home.dart';
+import 'package:gradproj/models/User.dart' as userR;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Constants/Dimensions.dart';
