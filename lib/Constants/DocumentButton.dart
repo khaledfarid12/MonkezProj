@@ -48,7 +48,7 @@ class DocumentButton extends StatelessWidget {
               width: 3.0,
               color: Color(0xFF00CDD0),
             ),
-            primary:   Colors.white,
+            primary: Colors.white,
           ),
           onPressed: clickdoc,
         ),

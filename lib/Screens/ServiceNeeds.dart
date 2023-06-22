@@ -62,8 +62,8 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FamilyRequestsScreen(
-                    userId: widget.uid, user: widget.user),
+                builder: (context) =>
+                    FamilyRequestsScreen(userId: widget.uid, user: widget.user),
               ),
             );
           },
@@ -103,13 +103,12 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => userprofile(
-                          uid: widget.uid,
-                          user: widget.user,
-                          getImageData: getImageData,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                              getImageData: getImageData,
+                            )));
               },
             ),
-
             ListTile(
               title: Text(
                 'Travel Guide',
@@ -124,23 +123,30 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TravelGuide(
-                          uid: widget.uid,
-                          user: widget.user,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
-              title: Text('Contact Us' , style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),),
+              title: Text(
+                'Contact Us',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUS(
-                  uid: widget.uid,
-                  user: widget.user,
-                )));
-              }, ),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ContactUS(
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
+              },
+            ),
             ListTile(
               title: Text(
                 'Nearest Building',
@@ -155,9 +161,9 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => NearestBuilding(
-                          user: widget.user,
-                          uid: widget.uid,
-                        )));
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
               },
             ),
             ListTile(
@@ -174,9 +180,9 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Guidance(
-                          uid: widget.uid,
-                          user: widget.user,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
@@ -206,9 +212,10 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                           child: Text("yes"),
                           onPressed: () {
                             // Close the dialog and sign the user out
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => WelcomePage()));
-
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WelcomePage()));
                           },
                         ),
                       ],
@@ -216,7 +223,6 @@ class _ServiceNeedsState extends State<ServiceNeeds> {
                   },
                 );
               },
-
             ),
           ],
         ),

@@ -116,7 +116,7 @@ class _ContactUSState extends State<ContactUS> {
                     MaterialPageRoute(
                         builder: (context) => MainScreen(
                             uid: widget.uid,
-                            user: widget.user))); // Close rating popup
+                            userr: widget.user))); // Close rating popup
                 // Close feedback screen
                 _messageController.clear();
               },
@@ -141,8 +141,8 @@ class _ContactUSState extends State<ContactUS> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FamilyRequestsScreen(
-                    userId: widget.uid, user: widget.user),
+                builder: (context) =>
+                    FamilyRequestsScreen(userId: widget.uid, user: widget.user),
               ),
             );
           },
@@ -182,13 +182,12 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => userprofile(
-                          uid: widget.uid,
-                          user: widget.user,
-                          getImageData: getImageData,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                              getImageData: getImageData,
+                            )));
               },
             ),
-
             ListTile(
               title: Text(
                 'Service Needs',
@@ -203,9 +202,9 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ServiceNeeds(
-                          user: widget.user,
-                          uid: widget.uid,
-                        )));
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
               },
             ),
             ListTile(
@@ -222,9 +221,9 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => TravelGuide(
-                          uid: widget.uid,
-                          user: widget.user,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(
@@ -241,9 +240,9 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => NearestBuilding(
-                          user: widget.user,
-                          uid: widget.uid,
-                        )));
+                              user: widget.user,
+                              uid: widget.uid,
+                            )));
               },
             ),
             ListTile(
@@ -260,9 +259,9 @@ class _ContactUSState extends State<ContactUS> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Guidance(
-                          uid: widget.uid,
-                          user: widget.user,
-                        )));
+                              uid: widget.uid,
+                              user: widget.user,
+                            )));
               },
             ),
             ListTile(

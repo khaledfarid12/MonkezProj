@@ -4,6 +4,7 @@ import 'package:gradproj/Constants/Dimensions.dart';
 import 'SignUp.dart';
 import 'UserService.dart';
 import 'home.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -244,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => MainScreen(user: user, uid: uid)),
+              builder: (context) => MainScreen(userr: user, uid: uid)),
           (route) => false,
         );
       } on FirebaseAuthException catch (e) {
